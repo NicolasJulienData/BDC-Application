@@ -45,10 +45,9 @@ path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
 storage_options = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
 data = pd.read_csv(path, storage_options=storage_options)
 
-
-data_test = pd.read_csv('output_final.csv')
-st.write(data_test)
-pipe = joblib.load('Bordeaux-Métropole-Maison-xgboost.joblib')
+mLink = 'https://github.com/NicolasJulienData/BDC-Application/blob/main/Bordeaux-Métropole-Appartement-xgboost.joblib'
+filehandler = open(mLink, 'rb') 
+pipe = joblib.load(filehandler)
 
 
 # data = pd.read_csv("/Users/nicolasjulien/Downloads/test_data_predict.csv")
