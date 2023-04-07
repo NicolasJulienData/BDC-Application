@@ -29,10 +29,6 @@ import plotly.express as px  # interactive charts
 
 import sklearn
 import joblib
-
-pipe = joblib.load("Bordeaux-Métropole-Maison-xgboost.joblib")
-
-
 import xgboost
 import streamlit as st  # 🎈 data web app development
 
@@ -48,6 +44,8 @@ url = "https://drive.google.com/file/d/1PIdlpGqh8UoFYOUZCuE9kZ2ShEQTg3q1/view?us
 path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
 storage_options = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
 data = pd.read_csv(path, storage_options=storage_options)
+
+pipe = joblib.load("https://github.com/NicolasJulienData/BDC-Application/blob/main/Bordeaux-Métropole-Maison-xgboost.joblib")
 
 # data = pd.read_csv("/Users/nicolasjulien/Downloads/test_data_predict.csv")
 
