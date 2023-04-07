@@ -17,6 +17,11 @@ from requests_html import HTMLSession
 from stqdm import stqdm
 from datetime import datetime
 from io import BytesIO
+import urllib.request
+from urllib.request import Request, urlopen
+from io import StringIO
+import pandas as pd
+import requests
 
 import numpy as np  # np mean, np random
 import pandas as pd  # read csv, df manipulation
@@ -28,21 +33,24 @@ import xgboost
 import streamlit as st  # 🎈 data web app development
 
 st.set_page_config(
-    page_title="Classement Concours Moovjee",
+    page_title="Challenge BDC ENSAE x MeilleurTaux",
     page_icon="https://drive.google.com/file/d/1rsobE8pEosOFjGyihHg6tN1oiqZQmwUV/view?usp=sharing",
     layout="wide",
 )
 
 st.title("Challenge BDC ENSAE x MeilleurTaux")
 
-data = pd.read_csv("/Users/nicolasjulien/Downloads/test_data_predict.csv")
+url = "https://drive.google.com/file/d/1PIdlpGqh8UoFYOUZCuE9kZ2ShEQTg3q1/view?usp=sharing"
+path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
+storage_options = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
+data = pd.read_csv(path, storage_options=storage_options)
 
-pipe = joblib.load("/Users/nicolasjulien/Downloads/model_save/Bordeaux-Métropole-Appartement-xgboost.joblib")
+# data = pd.read_csv("/Users/nicolasjulien/Downloads/test_data_predict.csv")
+
+pipe = joblib.load("Bordeaux-Métropole-Appartement-xgboost.joblib")
 model = pipe[:-1]
 
 st.write(model.named_steps, model.feature_names_in_)
-
-
 echantillon = data.sample(1)
 st.write(echantillon)
 
