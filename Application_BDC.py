@@ -46,6 +46,7 @@ storage_options = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKi
 data = pd.read_csv(path, storage_options=storage_options)
 
 pipe = joblib.load('Bordeaux-Métropole-Maison-xgboost.joblib')
+data_test = pd.read_csv('output_final.csv')
 
 # data = pd.read_csv("/Users/nicolasjulien/Downloads/test_data_predict.csv")
 
