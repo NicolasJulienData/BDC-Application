@@ -47,7 +47,7 @@ data = pd.read_csv(path, storage_options=storage_options)
 
 # data = pd.read_csv("/Users/nicolasjulien/Downloads/test_data_predict.csv")
 
-pipe = joblib.load("BDC-Application/Bordeaux-Métropole-Appartement-xgboost.joblib")
+pipe = joblib.load("Bordeaux-Métropole-Appartement-xgboost.joblib")
 model = pipe[:-1]
 
 st.write(model.named_steps, model.feature_names_in_)
