@@ -32,6 +32,8 @@ import joblib
 import xgboost
 import streamlit as st  # 🎈 data web app development
 
+#------------------------------PRESENTATION DE LA PAGE----------------------------------------------
+
 st.set_page_config(
     page_title="Challenge BDC ENSAE x MeilleurTaux",
     page_icon="https://drive.google.com/file/d/1rsobE8pEosOFjGyihHg6tN1oiqZQmwUV/view?usp=sharing",
@@ -40,25 +42,33 @@ st.set_page_config(
 
 st.title("Challenge BDC ENSAE x MeilleurTaux")
 
+#------------------------------IMPORTATION DE LA BASE DE DONNEES TEST----------------------------------------------
+
 url = "https://drive.google.com/file/d/1PIdlpGqh8UoFYOUZCuE9kZ2ShEQTg3q1/view?usp=sharing"
 path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
 storage_options = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
 data = pd.read_csv(path, storage_options=storage_options)
 
-mLink = 'https://github.com/NicolasJulienData/BDC-Application/blob/main/Bordeaux-Métropole-Appartement-xgboost.joblib'
+#------------------------------DEMANDE DE L'ADRESSE----------------------------------------------
+
+# Input adresse
+# API Google Maps
+# Afficher la métropole/ type de bien
+# charger le modele accordingly
+
+#------------------------------IMPORTATION DU MODELE----------------------------------------------
 
 pipe = joblib.load('Bordeaux-Metropole-Appartement-xgboost.joblib')
-
-# data = pd.read_csv("/Users/nicolasjulien/Downloads/test_data_predict.csv")
-
-
 model = pipe[:-1]
 
+#------------------------------INPUT DES CARACTERISTIQUES DU BIEN----------------------------------------------
+
 st.write(model.named_steps, model.feature_names_in_)
+st.write(data)
 echantillon = data.sample(1)
 st.write(echantillon)
 
-
+#------------------------------CREATION DE LA DONNEE ENTRANTE COMPLETE----------------------------------------------
 
 data_echantillon = pd.DataFrame({'adresse_nom_voie':echantillon['adresse_nom_voie'],
                     'nom_commune':echantillon['nom_commune'],
@@ -99,20 +109,13 @@ data_echantillon = pd.DataFrame({'adresse_nom_voie':echantillon['adresse_nom_voi
                     'Part_impôts':echantillon['Part_impôts']                 
     })
 
-new_attrs = ['grow_policy', 'max_bin', 'eval_metric', 'callbacks', 'early_stopping_rounds', 'max_cat_to_onehot', 'max_leaves', 'sampling_method']
-
-for attr in new_attrs:
-    setattr(pipe, attr, None)
-
-st.write(pd.DataFrame(data_echantillon.values.reshape(1, -1)))
-st.write(pipe.predict(data_echantillon))
+#------------------------------PREDICTION----------------------------------------------
 
 prediction = pipe.predict(pd.DataFrame(data_echantillon.values.reshape(1, -1)))
-
 st.write(prediction)
 
+#------------------------------BONUS---------------------------------------------
+
+#Afficher l'adresse sur une Map
 #Ajouter Feature Importance
 #Ajouter Intervalle Confiance
-
-
-# streamlit run /Users/nicolasjulien/Application_BDC.py
