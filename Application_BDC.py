@@ -77,7 +77,7 @@ with st.sidebar:
         nombre_pieces_principales = st.slider('Nombre de pièces principales', min_value = int(min(data['nombre_pieces_principales'])),
                                              max_value = int(max(data['nombre_pieces_principales'])), value = int(np.mean(data['nombre_pieces_principales'])), 
                                              step = 1)
-        surface_reelle_bati = st.slider('Surface réelle du batiment (en mètres carrés)', int(min_value = float(data['surface_reelle_bati'])),
+        surface_reelle_bati = st.slider('Surface réelle du batiment (en mètres carrés)', min_value = float(min(data['surface_reelle_bati'])),
                                              max_value = float(max(data['surface_reelle_bati'])), value = float(np.mean(data['surface_reelle_bati'])))
         if type_bien == "Maison":
             surface_zone = 0
