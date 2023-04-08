@@ -113,9 +113,11 @@ data_echantillon = pd.DataFrame({'adresse_nom_voie':echantillon['adresse_nom_voi
 #------------------------------PREDICTION----------------------------------------------
 
 prediction = pipe.predict(data_echantillon)
-st.write(data_echantillon.values.reshape(1, -1))
-prediction = pipe.predict(pd.DataFrame(data_echantillon.values.reshape(1, -1)))
 st.write(prediction)
+
+#st.write(data_echantillon.values.reshape(1, -1))
+#prediction = pipe.predict(pd.DataFrame(data_echantillon.values.reshape(1, -1)))
+#st.write(prediction)
 
 #------------------------------BONUS---------------------------------------------
 
