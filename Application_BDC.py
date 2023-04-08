@@ -66,7 +66,7 @@ if adresse == None:
 st.write(adresse)
 
 with st.sidebar:
-    if adresse != None:
+    if type(adresse) != 'NoneType':
         
         GEOCODE_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='+adresse+'&key='+st.secrets['gmaps_key']
         geo_response = requests.request("GET", GEOCODE_URL)
@@ -79,8 +79,7 @@ with st.sidebar:
         except IndexError:
          lat_lon = None
          ville = None
-         if adresse != None:
-            st.write('Adresse non trouvée')
+         st.write('Adresse non trouvée')
         
         type_bien = st.selectbox("Sélectionner le type de bien",("Appartement", "Maison"))
         
@@ -97,7 +96,7 @@ data = data[(data['nom_commune']==ville)&(data['type_local']==type_bien)]
 #------------------------------INPUT DES CARACTERISTIQUES DU BIEN----------------------------------------------
 
 st.write(type(lat_lon),type(data))
-if (type(lat_lon) != None) & (type(data) != None):
+if (type(lat_lon) != 'NoneType') & (type(data) != 'NoneType'):
     with st.sidebar:
 
         if (type_bien != None) & (ville != None):
@@ -112,8 +111,7 @@ if (type(lat_lon) != None) & (type(data) != None):
                                                  max_value = 10000, value=500)       
     col1, col2 = st.columns(2)
     with col1:
-        if (type(lat_lon) != None) & (type(data) != None):
-            st.map(data=lat_lon)
+        st.map(data=lat_lon)
 
 #------------------------------IMPORTATION DU MODELE----------------------------------------------
 
