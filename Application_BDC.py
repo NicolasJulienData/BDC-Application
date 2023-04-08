@@ -78,7 +78,7 @@ data = data[(data['nom_commune']==ville)&(data['type_local']==type_bien)]
 
 #------------------------------INPUT DES CARACTERISTIQUES DU BIEN----------------------------------------------
 
-if len(lat_lon)!=0:
+if (len(lat_lon)!=0) & (len(data)!=0):
     with st.sidebar:
 
         if (type_bien != None) & (ville != None):
