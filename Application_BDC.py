@@ -66,7 +66,7 @@ if adresse != None:
      ville = None
      st.write('Adresse non trouvée')
 
-if lat_lon != None:
+if lat_lon.iloc[0] != None:
     st.write(lat_lon, ville)
     st.map(data=lat_lon)
 
