@@ -193,10 +193,9 @@ elif type_bien =='Maison':
         })
 
 #------------------------------PREDICTION----------------------------------------------
-st.write(data_echantillon)
+
 prediction = pipe.predict(data_echantillon)
-st.write(prediction)
-st.write(float(prediction))
+
 st.write('Estimation du prix au mètre carré de votre bien immobilier : ', round(float(prediction),2), '€/mètre carré.')
 st.write('Estimation de la valeur de votre bien immobilier : ', int(float(prediction)*surface_reelle_bati), '€.')
 
