@@ -58,15 +58,16 @@ gmaps_key = googlemaps.Client(key = st.secrets['gmaps_key'])
 adresse =st.text_input("Veuillez entrer l'adresse:")
 geocode_result = gmaps_key.geocode(adresse)
 try:
-    st.write(geocode_result)
     lat = geocode_result[0]["geometry"]["location"]["lat"]
     lon = geocode_result[0]["geometry"]["location"]["lon"]
+    metropole = geocode_result[0]["adress_components"][2]["long_name"]
 except:
     lat = None
     lon = None
+    metropole = None
 
 if lat != None:
-    st.write(lat,lon)
+    st.write(lat,lon,metropole)
 
 # Input adresse
 # API Google Maps
