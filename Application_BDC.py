@@ -59,7 +59,7 @@ with st.sidebar:
          st.write(geodata['results'][0])
          ville = geodata['results'][0]['address_components'][2]["long_name"]
          nom_voie = geodata['results'][0]['address_components'][1]["short_name"]
-         code_departement = geodata['results'][0]['address_components'][3]["short_name"]
+         code_departement = geodata['results'][0]['address_components'][6]["short_name"]
         except IndexError:
          lat_lon = None
          ville = None
