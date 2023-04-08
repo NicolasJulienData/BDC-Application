@@ -78,20 +78,20 @@ data = data[(data['nom_commune']==ville)&(data['type_local']==type_bien)]
 
 #------------------------------INPUT DES CARACTERISTIQUES DU BIEN----------------------------------------------
 
-with st.sidebar:
-       
-    if (type_bien != None) & (ville != None):
-        
-        nombre_pieces_principales = st.slider('Nombre de pièces principales', min_value = int(min(data['nombre_pieces_principales'])),
-                                             max_value = int(max(data['nombre_pieces_principales'])), value = int(np.mean(data['nombre_pieces_principales'])), 
-                                             step = 1)
-        surface_reelle_bati = st.slider('Surface réelle du batiment (en mètres carrés)', min_value = float(min(data['surface_reelle_bati'])),
-                                             max_value = float(max(data['surface_reelle_bati'])), value = float(np.mean(data['surface_reelle_bati'])))
-        if type_bien == "Maison":
-            surface_terrain = st.slider('Surface du terrain de la maison (en mètres carrés)', min_value = 0,
-                                             max_value = 10000, value=500)       
-    
 if len(lat_lon)!=0:
+    with st.sidebar:
+
+        if (type_bien != None) & (ville != None):
+
+            nombre_pieces_principales = st.slider('Nombre de pièces principales', min_value = int(min(data['nombre_pieces_principales'])),
+                                                 max_value = int(max(data['nombre_pieces_principales'])), value = int(np.mean(data['nombre_pieces_principales'])), 
+                                                 step = 1)
+            surface_reelle_bati = st.slider('Surface réelle du batiment (en mètres carrés)', min_value = float(min(data['surface_reelle_bati'])),
+                                                 max_value = float(max(data['surface_reelle_bati'])), value = float(np.mean(data['surface_reelle_bati'])))
+            if type_bien == "Maison":
+                surface_terrain = st.slider('Surface du terrain de la maison (en mètres carrés)', min_value = 0,
+                                                 max_value = 10000, value=500)       
+
     st.write(lat_lon, ville)
     st.map(data=lat_lon)
 
