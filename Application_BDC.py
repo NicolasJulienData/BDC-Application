@@ -118,8 +118,7 @@ st.write(float(prediction))
 import matplotlib.pyplot as plt
 from xgboost import plot_tree
 plot_tree(xgb_model)
-st.write(plot_tree(xgb_model))
-st.pyplot(plot_tree(xgb_model).figure)
+st.pyplot(plot_tree(xgb_model).figure, num_trees=0, rankdir='LR')
 
 #explainer = shap.Explainer(pipe.predict, data_echantillon)
 #shap_values = explainer(X)
