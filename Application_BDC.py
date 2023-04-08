@@ -92,15 +92,16 @@ if (len(lat_lon)!=0) & (len(data)!=0):
                 surface_terrain = st.slider('Surface du terrain de la maison (en mètres carrés)', min_value = 0,
                                                  max_value = 10000, value=500)       
 
-    st.write(lat_lon, ville)
     st.map(data=lat_lon)
 
 #------------------------------IMPORTATION DU MODELE----------------------------------------------
+col1, col2 = st.columns(2)
 
 if np.isin(ville,['Paris','Marseille','Lyon','Lille','Bordeaux','Toulouse','Nice','Nantes','Montpellier','Rennes']):
 
     pipe = joblib.load('{}-{}.joblib'.format(ville,type_bien))
-    st.markdown('Modele Chargé ✅')
+    with col1:
+    st.write('Modele Chargé pour la ville de {} pour un bien de type {}'.format(ville,type_bien))
     preprocessor = pipe[:-1]
 #    st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
     xgb_model = pipe[-1]
@@ -112,15 +113,21 @@ else:
 echantillon = data.sample(1)
 st.write(echantillon)
 
+with st.sidebar:
+    nombre_lots = st.slider('Nombre de pièces principales', min_value = int(min(data['nombre_lots'])),
+                                                 max_value = int(max(data['nombre_lots'])), value = int(np.mean(data['nombre_lots'])), 
+                                                 step = 1)
+    trimestre_vente = st.selectbox(data['trimestre_vente'].unique)
+
 if type_bien == 'Appartement':
     data_echantillon = pd.DataFrame({'adresse_nom_voie':adresse_nom_voie,
                         'nom_commune':ville,
                         'code_departement':code_departement,
-                        'nombre_lots':echantillon['nombre_lots'],
+                        'nombre_lots':nombre_lots,
                         'surface_reelle_bati':surface_reelle_bati,
                         'nombre_pieces_principales':nombre_pieces_principales,
                         'latitude':float(lat_lon['lat']),
-                        'trimestre_vente':echantillon['trimestre_vente'],
+                        'trimestre_vente':trimestre_vente,
                         'prix_m2_zone':echantillon['prix_m2_zone'],
                         'moyenne':echantillon['moyenne'],
                         'moyenne_brevet':echantillon['moyenne_brevet'],
@@ -157,12 +164,12 @@ elif type_bien =='Maison':
         data_echantillon = pd.DataFrame({'adresse_nom_voie':adresse_nom_voie,
                         'nom_commune':ville,
                         'code_departement':code_departement,
-                        'nombre_lots':echantillon['nombre_lots'],
+                        'nombre_lots':nombre_lots,
                         'surface_reelle_bati':surface_reelle_bati,
                         'nombre_pieces_principales':nombre_pieces_principales,
                         'surface_terrain':surface_terrain,
                         'latitude':float(lat_lon['lat']),
-                        'trimestre_vente':echantillon['trimestre_vente'],
+                        'trimestre_vente':trimestre_vente,
                         'prix_m2_zone':echantillon['prix_m2_zone'],
                         'moyenne':echantillon['moyenne'],
                         'moyenne_brevet':echantillon['moyenne_brevet'],
@@ -196,8 +203,9 @@ elif type_bien =='Maison':
 
 prediction = pipe.predict(data_echantillon)
 
-st.write('Estimation du prix au mètre carré de votre bien immobilier : ', round(float(prediction),2), '€/mètre carré.')
-st.write('Estimation de la valeur de votre bien immobilier : ', int(float(prediction)*surface_reelle_bati), '€.')
+with col2:
+    st.write('Estimation du prix au mètre carré de votre bien immobilier : ', round(float(prediction),2), '€/mètre carré.')
+    st.write('Estimation de la valeur de votre bien immobilier : ', int(float(prediction)*surface_reelle_bati), '€.')
 
 # import matplotlib.pyplot as plt
 # from xgboost import plot_tree
