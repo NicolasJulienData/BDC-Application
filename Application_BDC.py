@@ -75,15 +75,18 @@ data = pd.read_csv('data_test.csv')
 #        st.session_state['long_lat_metropole'] = [lat,lon,metropole]
 
 adresse = st.text_input("Veuillez entrer l'adresse:")
-GEOCODE_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='+adresse+'&key='+st.secrets['gmaps_key']
-geo_response = requests.request("GET", GEOCODE_URL)
-geodata = json.loads(geo_response.text)
-try:
- latlongmetro = [geodata['results'][0]['geometry']['location']['lat'],geodata['results'][0]['geometry']['location']['lng']]
- st.write(geodata['results'][0])
-except IndexError:
- latlongmetro = None
- st.write('latlongmetro not found')
+
+if adresse != None:
+    GEOCODE_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='+adresse+'&key='+st.secrets['gmaps_key']
+    geo_response = requests.request("GET", GEOCODE_URL)
+    geodata = json.loads(geo_response.text)
+    try:
+     latlongmetro = [geodata['results'][0]['geometry']['location']['lat'],geodata['results'][0]['geometry']['location']['lng'],
+                    geodata['results'][0]['address_components'][2]["long_name"]]
+     st.write(geodata['results'][0])
+    except IndexError:
+     latlongmetro = None
+     st.write('Adresse non trouvée')
 
 st.write(latlongmetro)
 
