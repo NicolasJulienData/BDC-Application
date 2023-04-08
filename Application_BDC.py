@@ -60,13 +60,9 @@ data = pd.read_csv('data_test.csv')
 #------------------------------IMPORTATION DU MODELE----------------------------------------------
 
 pipe = joblib.load('Bordeaux-Metropole-Appartement-xgboost.joblib')
-model = pipe[:-1]
-st.write(model.named_steps, model.feature_names_in_)
-model_2 = pipe[-1]
-st.write(model_2.named_steps, model_2.feature_names_in_)
-
-st.write(pipe.named_steps)
-
+preprocessor = pipe[:-1]
+st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
+xgb_model = pipe[-1]
 
 #------------------------------INPUT DES CARACTERISTIQUES DU BIEN----------------------------------------------
 
@@ -121,7 +117,7 @@ st.write(float(prediction))
 
 import matplotlib.pyplot as plt
 from xgboost import plot_tree
-plot_tree(pipe)
+plot_tree(xgb_model)
 
 #explainer = shap.Explainer(pipe.predict, data_echantillon)
 #shap_values = explainer(X)
