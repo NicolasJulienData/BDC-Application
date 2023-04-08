@@ -55,7 +55,7 @@ data = pd.read_csv('data_test.csv')
 if 'long_lat_metropole' not in st.session_state:
     st.session_state['long_lat_metropole'] = False
     
-if st.session_state['long_lat_metropole'] == False   
+if st.session_state['long_lat_metropole'] == False:   
     
     import googlemaps
     gmaps_key = googlemaps.Client(key = st.secrets['gmaps_key'])
@@ -71,7 +71,8 @@ if st.session_state['long_lat_metropole'] == False
         lon = None
         metropole = None
     st.write(lat,lon,metropole)
-    st.session_state['long_lat_metropole'] = [lat,lon,metropole]
+    if lat != None:
+        st.session_state['long_lat_metropole'] = [lat,lon,metropole]
     
 
 # Input adresse
