@@ -117,7 +117,7 @@ with st.sidebar:
     nombre_lots = st.slider('Nombre de lots', min_value = int(min(data['nombre_lots'])),
                                                  max_value = int(max(data['nombre_lots'])), value = int(np.mean(data['nombre_lots'])), 
                                                  step = 1)
-    trimestre_vente = st.selectbox(data['trimestre_vente'].unique)
+    trimestre_vente = st.selectbox("Trimestre Vente",data['trimestre_vente'].unique)
 
 if type_bien == 'Appartement':
     data_echantillon = pd.DataFrame({'adresse_nom_voie':adresse_nom_voie,
