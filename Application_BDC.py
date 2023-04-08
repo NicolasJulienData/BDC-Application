@@ -90,12 +90,14 @@ if len(lat_lon.index)!=0:
 
 #------------------------------IMPORTATION DU MODELE----------------------------------------------
 
+if ville isin ['Paris','Marseille','Lyon','Lille','Bordeaux','Toulouse','Nice','Nantes','Montpellier','Rennes']:
 
-
-pipe = joblib.load('Bordeaux-Metropole-Appartement-xgboost.joblib')
-preprocessor = pipe[:-1]
-# st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
-xgb_model = pipe[-1]
+    pipe = joblib.load('{}-{}.joblib'.format(ville,type_bien)
+    preprocessor = pipe[:-1]
+    st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
+    xgb_model = pipe[-1]
+else:
+    st.write("Ville non couverte par notre modèle. Veuillez réessayer dans l'une des métropoles suivantes : Paris, Marseille, Lyon, Lille, Bordeaux, Toulouse, Nice, Nantes, Montpellier, Rennes")
 
 #------------------------------INPUT DES CARACTERISTIQUES DU BIEN----------------------------------------------
 
