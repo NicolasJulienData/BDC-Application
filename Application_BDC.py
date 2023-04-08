@@ -122,7 +122,7 @@ st.pyplot(plot_tree(xgb_model,num_trees=0, rankdir='LR').figure)
 
 import shap
 explainer = shap.Explainer(pipe.predict, data_echantillon)
-shap_values = explainer(X)
+shap_values = explainer(data_echantillon)
 st.pyplot(shap.plots.waterfall(shap_values[sample_ind], max_display=14))
 
 #------------------------------BONUS---------------------------------------------
