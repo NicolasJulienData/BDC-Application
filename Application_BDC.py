@@ -92,7 +92,7 @@ if len(lat_lon.index)!=0:
 
 if np.isin(ville,['Paris','Marseille','Lyon','Lille','Bordeaux','Toulouse','Nice','Nantes','Montpellier','Rennes']):
 
-    pipe = joblib.load('{}-{}.joblib'.format(ville,type_bien)
+    pipe = joblib.load('{}-{}.joblib'.format(ville,type_bien))
     preprocessor = pipe[:-1]
     st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
     xgb_model = pipe[-1]
