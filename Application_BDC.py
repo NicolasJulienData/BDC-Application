@@ -115,6 +115,9 @@ data_echantillon = pd.DataFrame({'adresse_nom_voie':echantillon['adresse_nom_voi
 prediction = pipe.predict(data_echantillon)
 st.write(float(prediction))
 
+from xgboost import plot_tree
+plot_tree(pipe)
+
 #explainer = shap.Explainer(pipe.predict, data_echantillon)
 #shap_values = explainer(X)
 #st.write(shap.plots.waterfall(shap_values[sample_ind], max_display=14))$
