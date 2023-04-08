@@ -103,7 +103,7 @@ if np.isin(ville,['Paris','Marseille','Lyon','Lille','Bordeaux','Toulouse','Nice
     with col2:
         st.write('Modele Chargé pour la ville de {} pour un bien de type {}'.format(ville,type_bien))
     preprocessor = pipe[:-1]
-#    st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
+    st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
     xgb_model = pipe[-1]
 else:
     st.write("Ville non couverte par notre modèle. Veuillez réessayer dans l'une des métropoles suivantes : Paris, Marseille, Lyon, Lille, Bordeaux, Toulouse, Nice, Nantes, Montpellier, Rennes")
