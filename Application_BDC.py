@@ -78,7 +78,7 @@ data = data[(data['nom_commune']==ville)&(data['type_local']==type_bien)]
 
 #------------------------------INPUT DES CARACTERISTIQUES DU BIEN----------------------------------------------
 
-if (len(lat_lon)!=0) & (len(data)!=0):
+if (len(lat_lon) != 0) & (type(data) != None):
     with st.sidebar:
 
         if (type_bien != None) & (ville != None):
@@ -91,16 +91,16 @@ if (len(lat_lon)!=0) & (len(data)!=0):
             if type_bien == "Maison":
                 surface_terrain = st.slider('Surface du terrain de la maison (en mètres carrés)', min_value = 0,
                                                  max_value = 10000, value=500)       
-
-    st.map(data=lat_lon)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.map(data=lat_lon)
 
 #------------------------------IMPORTATION DU MODELE----------------------------------------------
-col1, col2 = st.columns(2)
 
 if np.isin(ville,['Paris','Marseille','Lyon','Lille','Bordeaux','Toulouse','Nice','Nantes','Montpellier','Rennes']):
 
     pipe = joblib.load('{}-{}.joblib'.format(ville,type_bien))
-    with col1:
+    with col2:
         st.write('Modele Chargé pour la ville de {} pour un bien de type {}'.format(ville,type_bien))
     preprocessor = pipe[:-1]
 #    st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
@@ -114,7 +114,7 @@ echantillon = data.sample(1)
 st.write(echantillon)
 
 with st.sidebar:
-    nombre_lots = st.slider('Nombre de pièces principales', min_value = int(min(data['nombre_lots'])),
+    nombre_lots = st.slider('Nombre de lots', min_value = int(min(data['nombre_lots'])),
                                                  max_value = int(max(data['nombre_lots'])), value = int(np.mean(data['nombre_lots'])), 
                                                  step = 1)
     trimestre_vente = st.selectbox(data['trimestre_vente'].unique)
