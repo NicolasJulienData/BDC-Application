@@ -94,7 +94,7 @@ if len(lat_lon.index)!=0:
 
 pipe = joblib.load('Bordeaux-Metropole-Appartement-xgboost.joblib')
 preprocessor = pipe[:-1]
-st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
+# st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
 xgb_model = pipe[-1]
 
 #------------------------------INPUT DES CARACTERISTIQUES DU BIEN----------------------------------------------
