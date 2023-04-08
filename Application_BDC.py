@@ -56,9 +56,8 @@ with st.sidebar:
         geodata = json.loads(geo_response.text)
         try:
          lat_lon = pd.DataFrame({'lat':[geodata['results'][0]['geometry']['location']['lat']], 'lon':[geodata['results'][0]['geometry']['location']['lng']]})
-         st.write(geodata['results'][0])
          ville = geodata['results'][0]['address_components'][2]["long_name"]
-         nom_voie = geodata['results'][0]['address_components'][1]["short_name"]
+         adresse_nom_voie = geodata['results'][0]['address_components'][1]["short_name"]
          code_departement = geodata['results'][0]['address_components'][6]["short_name"]
         except IndexError:
          lat_lon = None
@@ -92,7 +91,7 @@ with st.sidebar:
             surface_terrain = st.slider('Surface du terrain de la maison (en mètres carrés)', min_value = 0,
                                              max_value = 10000, value=500)       
     
-if len(lat_lon.index)!=0:
+if len(lat_lon)!=0:
     st.write(lat_lon, ville)
     st.map(data=lat_lon)
 
@@ -103,7 +102,7 @@ if np.isin(ville,['Paris','Marseille','Lyon','Lille','Bordeaux','Toulouse','Nice
     pipe = joblib.load('{}-{}.joblib'.format(ville,type_bien))
     st.markdown('Modele Chargé ✅')
     preprocessor = pipe[:-1]
-    st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
+#    st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
     xgb_model = pipe[-1]
 else:
     st.write("Ville non couverte par notre modèle. Veuillez réessayer dans l'une des métropoles suivantes : Paris, Marseille, Lyon, Lille, Bordeaux, Toulouse, Nice, Nantes, Montpellier, Rennes")
