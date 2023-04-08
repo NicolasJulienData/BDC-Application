@@ -83,7 +83,6 @@ if adresse != None:
     try:
      latlongmetro = [geodata['results'][0]['geometry']['location']['lat'],geodata['results'][0]['geometry']['location']['lng'],
                     geodata['results'][0]['address_components'][2]["long_name"]]
-     st.write(geodata['results'][0])
     except IndexError:
      latlongmetro = None
      st.write('Adresse non trouvée')
