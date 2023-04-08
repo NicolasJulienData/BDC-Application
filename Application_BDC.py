@@ -119,7 +119,7 @@ import matplotlib.pyplot as plt
 from xgboost import plot_tree
 plot_tree(xgb_model)
 st.write(plot_tree(xgb_model))
-st.pyplot(plot_tree(xgb_model))
+st.pyplot(plot_tree(xgb_model).figure)
 
 #explainer = shap.Explainer(pipe.predict, data_echantillon)
 #shap_values = explainer(X)
