@@ -61,11 +61,15 @@ data = pd.read_csv('data_test.csv')
 
 pipe = joblib.load('Bordeaux-Metropole-Appartement-xgboost.joblib')
 model = pipe[:-1]
+st.write(model.named_steps, model.feature_names_in_)
+model_2 = pipe[-1]
+st.write(model_2.named_steps, model_2.feature_names_in_)
+
+st.write(pipe.named_steps)
+
 
 #------------------------------INPUT DES CARACTERISTIQUES DU BIEN----------------------------------------------
 
-st.write(model.named_steps, model.feature_names_in_)
-st.write(data)
 echantillon = data.sample(1)
 st.write(echantillon)
 
