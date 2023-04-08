@@ -69,7 +69,7 @@ with st.sidebar:
          ville = None
          st.write('Adresse non trouvée')
     
-   type_bien = st.selectbox("Sélectionner le type de bien",("Appartement", "Maison"))
+    type_bien = st.selectbox("Sélectionner le type de bien",("Appartement", "Maison"))
    
     if (type_bien != None) & (ville != None):
         
