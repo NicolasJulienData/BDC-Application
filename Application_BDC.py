@@ -79,7 +79,7 @@ with st.sidebar:
         surface_reelle_bati = st.slider('Surface réelle du batiment (en mètres carrés)', min_value = min(data['surface_reelle_bati']),
                                              max_value = max(data['surface_reelle_bati']), value = np.mean(data['surface_reelle_bati']))
         if type_bien == "Maison":
-            
+            surface_zone = 0
             # surface_zone TO DO
          
     
