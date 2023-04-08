@@ -66,8 +66,7 @@ except:
     lon = None
     metropole = None
 
-if lat != None:
-    st.write(lat,lon,metropole)
+st.write(lat,lon,metropole)
 
 # Input adresse
 # API Google Maps
