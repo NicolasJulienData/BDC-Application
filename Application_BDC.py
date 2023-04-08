@@ -101,7 +101,7 @@ if np.isin(ville,['Paris','Marseille','Lyon','Lille','Bordeaux','Toulouse','Nice
 
     pipe = joblib.load('{}-{}.joblib'.format(ville,type_bien))
     with col1:
-    st.write('Modele Chargé pour la ville de {} pour un bien de type {}'.format(ville,type_bien))
+        st.write('Modele Chargé pour la ville de {} pour un bien de type {}'.format(ville,type_bien))
     preprocessor = pipe[:-1]
 #    st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
     xgb_model = pipe[-1]
