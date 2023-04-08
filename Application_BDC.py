@@ -193,7 +193,7 @@ elif type_bien =='Maison':
         })
 
 #------------------------------PREDICTION----------------------------------------------
-
+st.write(data_echantillon)
 prediction = pipe.predict(data_echantillon)
 st.write(prediction)
 st.write(float(prediction))
