@@ -21,7 +21,6 @@ import urllib.request
 from urllib.request import Request, urlopen
 from io import StringIO
 import pandas as pd
-import shap
 import requests
 
 import numpy as np  # np mean, np random
@@ -116,10 +115,13 @@ data_echantillon = pd.DataFrame({'adresse_nom_voie':echantillon['adresse_nom_voi
 prediction = pipe.predict(data_echantillon)
 st.write(float(prediction))
 
-explainer = shap.Explainer(pipe.predict, data_echantillon)
-shap_values = explainer(X)
-st.write(shap.plots.waterfall(shap_values[sample_ind], max_display=14))
+#explainer = shap.Explainer(pipe.predict, data_echantillon)
+#shap_values = explainer(X)
+#st.write(shap.plots.waterfall(shap_values[sample_ind], max_display=14))$
 
+#------------------------------BONUS---------------------------------------------
+
+#import shap
 #st.write(data_echantillon.values.reshape(1, -1))
 #prediction = pipe.predict(pd.DataFrame(data_echantillon.values.reshape(1, -1)))
 #st.write(prediction)
