@@ -44,14 +44,6 @@ st.set_page_config(
 
 st.title("Challenge BDC ENSAE x MeilleurTaux")
 
-#------------------------------IMPORTATION DE LA BASE DE DONNEES TEST----------------------------------------------
-
-#url = "https://drive.google.com/file/d/1PIdlpGqh8UoFYOUZCuE9kZ2ShEQTg3q1/view?usp=sharing"
-#path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
-#storage_options = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
-#data = pd.read_csv(path, storage_options=storage_options)
-data = pd.read_csv('data_test.csv')
-
 #------------------------------DEMANDE DE L'ADRESSE----------------------------------------------
 
 with st.sidebar:
@@ -64,11 +56,26 @@ with st.sidebar:
         geodata = json.loads(geo_response.text)
         try:
          lat_lon = pd.DataFrame({'lat':[geodata['results'][0]['geometry']['location']['lat']], 'lon':[geodata['results'][0]['geometry']['location']['lng']]})
+         st.write(geodata['results'][0])
          ville = geodata['results'][0]['address_components'][2]["long_name"]
+         nom_voie = geodata['results'][0]['address_components'][1]["short_name"]
+         code_departement = geodata['results'][0]['address_components'][3]["short_name"]
         except IndexError:
          lat_lon = None
          ville = None
          st.write('Adresse non trouvée')
+        
+        
+#------------------------------IMPORTATION DE LA BASE DE DONNEES TEST----------------------------------------------
+
+#url = "https://drive.google.com/file/d/1PIdlpGqh8UoFYOUZCuE9kZ2ShEQTg3q1/view?usp=sharing"
+#path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
+#storage_options = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
+#data = pd.read_csv(path, storage_options=storage_options)
+data = pd.read_csv('data_test.csv')
+data = data[data['nom_commune'==ville]]
+
+#------------------------------INPUT DES CARACTERISTIQUES DU BIEN----------------------------------------------
     
     type_bien = st.selectbox("Sélectionner le type de bien",("Appartement", "Maison"))
    
@@ -80,9 +87,8 @@ with st.sidebar:
         surface_reelle_bati = st.slider('Surface réelle du batiment (en mètres carrés)', min_value = float(min(data['surface_reelle_bati'])),
                                              max_value = float(max(data['surface_reelle_bati'])), value = float(np.mean(data['surface_reelle_bati'])))
         if type_bien == "Maison":
-            surface_zone = 0
-            # surface_zone TO DO
-         
+            surface_terrain = st.slider('Surface du terrain de la maison (en mètres carrés)', min_value = 0,
+                                             max_value = 10000, 500)       
     
 if len(lat_lon.index)!=0:
     st.write(lat_lon, ville)
@@ -93,57 +99,97 @@ if len(lat_lon.index)!=0:
 if np.isin(ville,['Paris','Marseille','Lyon','Lille','Bordeaux','Toulouse','Nice','Nantes','Montpellier','Rennes']):
 
     pipe = joblib.load('{}-{}.joblib'.format(ville,type_bien))
+    st.markdown('Modele Chargé ✅')
     preprocessor = pipe[:-1]
     st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
     xgb_model = pipe[-1]
 else:
     st.write("Ville non couverte par notre modèle. Veuillez réessayer dans l'une des métropoles suivantes : Paris, Marseille, Lyon, Lille, Bordeaux, Toulouse, Nice, Nantes, Montpellier, Rennes")
 
-#------------------------------INPUT DES CARACTERISTIQUES DU BIEN----------------------------------------------
+#------------------------------CREATION DE LA DONNEE ENTRANTE COMPLETE----------------------------------------------
 
 echantillon = data.sample(1)
 st.write(echantillon)
 
-#------------------------------CREATION DE LA DONNEE ENTRANTE COMPLETE----------------------------------------------
-
-data_echantillon = pd.DataFrame({'adresse_nom_voie':echantillon['adresse_nom_voie'],
-                    'nom_commune':echantillon['nom_commune'],
-                    'code_departement':echantillon['code_departement'],
-                    'nombre_lots':echantillon['nombre_lots'],
-                    'surface_reelle_bati':surface_reelle_bati,
-                    'nombre_pieces_principales':nombre_pieces_principales,
-                    'latitude':200,
-                    'trimestre_vente':echantillon['trimestre_vente'],
-                    'prix_m2_zone':echantillon['prix_m2_zone'],
-                    'moyenne':echantillon['moyenne'],
-                    'moyenne_brevet':echantillon['moyenne_brevet'],
-                    'Banques':echantillon['Banques'],
-                    'Bureaux_de_Poste':echantillon['Bureaux_de_Poste'],
-                    'Commerces':echantillon['Commerces'],
-                    'Ecoles':echantillon['Ecoles'],
-                    'Collèges_Lycées':echantillon['Collèges_Lycées'],
-                    'Medecins':echantillon['Medecins'],
-                    'Gares':echantillon['Gares'],
-                    'Cinema':echantillon['Cinema'],
-                    'Bibliotheques':echantillon['Bibliotheques'],
-                    'Espaces_remarquables_et_patrimoine':echantillon['Espaces_remarquables_et_patrimoine'],
-                    'Taux_pauvreté_seuil_60':echantillon['Taux_pauvreté_seuil_60'],
-                    'Q1':echantillon['Q1'],
-                    'Mediane':echantillon['moyenne'],#attention il manque la mediane jsp pk
-                    'Ecart_inter_Q_rapporte_a_la_mediane':echantillon['Ecart_inter_Q_rapporte_a_la_mediane'],
-                    'D1':1000, #manque valeur
-                    'D9':echantillon['D9'],
-                    'Rapport_interdécile_D9/D1':float(echantillon['D9'])/1000,
-                    'Gini':echantillon['Gini'],
-                    'Part_revenus_activite':30,
-                    'Part_salaire':echantillon['Part_salaire'],
-                    'Part_revenus_chomage':echantillon['Part_revenus_chomage'],
-                    'Part_revenus_non_salariées':echantillon['Part_revenus_non_salariées'],
-                    'Part_retraites':echantillon['Part_retraites'],
-                    'Part_revenus_patrimoine':echantillon['Part_revenus_patrimoine'],
-                    'Part_prestations_sociales':20,
-                    'Part_impôts':echantillon['Part_impôts']                 
-    })
+if type_bien == 'Appartement':
+    data_echantillon = pd.DataFrame({'adresse_nom_voie':adresse_nom_voie,
+                        'nom_commune':ville,
+                        'code_departement':code_departement,
+                        'nombre_lots':echantillon['nombre_lots'],
+                        'surface_reelle_bati':surface_reelle_bati,
+                        'nombre_pieces_principales':nombre_pieces_principales,
+                        'latitude':lat_lon['lat'],
+                        'trimestre_vente':echantillon['trimestre_vente'],
+                        'prix_m2_zone':echantillon['prix_m2_zone'],
+                        'moyenne':echantillon['moyenne'],
+                        'moyenne_brevet':echantillon['moyenne_brevet'],
+                        'Banques':echantillon['Banques'],
+                        'Bureaux_de_Poste':echantillon['Bureaux_de_Poste'],
+                        'Commerces':echantillon['Commerces'],
+                        'Ecoles':echantillon['Ecoles'],
+                        'Collèges_Lycées':echantillon['Collèges_Lycées'],
+                        'Medecins':echantillon['Medecins'],
+                        'Gares':echantillon['Gares'],
+                        'Cinema':echantillon['Cinema'],
+                        'Bibliotheques':echantillon['Bibliotheques'],
+                        'Espaces_remarquables_et_patrimoine':echantillon['Espaces_remarquables_et_patrimoine'],
+                        'Taux_pauvreté_seuil_60':echantillon['Taux_pauvreté_seuil_60'],
+                        'Q1':echantillon['Q1'],
+                        'Mediane':echantillon['moyenne'],#attention il manque la mediane jsp pk
+                        'Ecart_inter_Q_rapporte_a_la_mediane':echantillon['Ecart_inter_Q_rapporte_a_la_mediane'],
+                        'D1':1000, #manque valeur
+                        'D9':echantillon['D9'],
+                        'Rapport_interdécile_D9/D1':float(echantillon['D9'])/1000,
+                        'S80/S20':2
+                        'Gini':echantillon['Gini'],                      
+                        'Part_revenus_activite':30,
+                        'Part_salaire':echantillon['Part_salaire'],
+                        'Part_revenus_chomage':echantillon['Part_revenus_chomage'],
+                        'Part_revenus_non_salariées':echantillon['Part_revenus_non_salariées'],
+                        'Part_retraites':echantillon['Part_retraites'],
+                        'Part_revenus_patrimoine':echantillon['Part_revenus_patrimoine'],
+                        'Part_prestations_sociales':20,
+                        'Part_impôts':echantillon['Part_impôts']                 
+        })
+    
+elif type_bien =='Maison':
+        data_echantillon = pd.DataFrame({'adresse_nom_voie':adresse_nom_voie,
+                        'nom_commune':ville,
+                        'code_departement':code_departement,
+                        'nombre_lots':echantillon['nombre_lots'],
+                        'surface_reelle_bati':surface_reelle_bati,
+                        'nombre_pieces_principales':nombre_pieces_principales,
+                        'surface_terrain':surface_terrain
+                        'latitude':lat_lon['lat'],
+                        'trimestre_vente':echantillon['trimestre_vente'],
+                        'prix_m2_zone':echantillon['prix_m2_zone'],
+                        'moyenne':echantillon['moyenne'],
+                        'moyenne_brevet':echantillon['moyenne_brevet'],
+                        'Banques':echantillon['Banques'],
+                        'Bureaux_de_Poste':echantillon['Bureaux_de_Poste'],
+                        'Commerces':echantillon['Commerces'],
+                        'Ecoles':echantillon['Ecoles'],
+                        'Collèges_Lycées':echantillon['Collèges_Lycées'],
+                        'Medecins':echantillon['Medecins'],
+                        'Gares':echantillon['Gares'],
+                        'Cinema':echantillon['Cinema'],
+                        'Bibliotheques':echantillon['Bibliotheques'],
+                        'Espaces_remarquables_et_patrimoine':echantillon['Espaces_remarquables_et_patrimoine'],
+                        'Taux_pauvreté_seuil_60':echantillon['Taux_pauvreté_seuil_60'],
+                        'Q1':echantillon['Q1'],
+                        'Ecart_inter_Q_rapporte_a_la_mediane':echantillon['Ecart_inter_Q_rapporte_a_la_mediane'],
+                        'D9':echantillon['D9'],
+                        'Rapport_interdécile_D9/D1':float(echantillon['D9'])/1000,
+                        'S80/S20':2
+                        'Gini':echantillon['Gini'],                      
+                        'Part_salaire':echantillon['Part_salaire'],
+                        'Part_revenus_chomage':echantillon['Part_revenus_chomage'],
+                        'Part_revenus_non_salariées':echantillon['Part_revenus_non_salariées'],
+                        'Part_retraites':echantillon['Part_retraites'],
+                        'Part_revenus_patrimoine':echantillon['Part_revenus_patrimoine'],
+                        'Part_prestations_sociales':20,
+                        'Part_impôts':echantillon['Part_impôts']                 
+        })
 
 #------------------------------PREDICTION----------------------------------------------
 
