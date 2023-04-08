@@ -37,13 +37,25 @@ import streamlit as st  # 🎈 data web app development
 #------------------------------PRESENTATION DE LA PAGE----------------------------------------------
 
 st.set_page_config(
-    page_title="Challenge BDC ENSAE x MeilleurTaux",
+    page_title="Immobilia",
     page_icon="https://drive.google.com/file/d/1rsobE8pEosOFjGyihHg6tN1oiqZQmwUV/view?usp=sharing",
     layout="wide",
 )
 
-st.title("Challenge BDC ENSAE x MeilleurTaux")
+st.title("ImmobilIA - Business Data Challenge ENSAE x MeilleurTaux")
 
+col_1, col_2 = st.columns(2)
+with col_1:
+    st.image("https://www.meilleurtaux.com/images_html/new-logo-mtx.svg", width = 270)
+with col_2:
+    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/LOGO-ENSAE.png/800px-LOGO-ENSAE.png")
+    
+st.markdown
+st.markdown("### ImmobilIA : l'application qui te permet d'estimer le prix de ton bien immobilier ### 🏠🏢") 
+st.markdown("**Présentation de l'application** - Cette application a été créée dans le cadre du projet académique *Business Data Challenge* de l'ENSAE effectué en partenariat avec meilleurtaux.com 📈. Elle a été créée dans le but d'exposer le résultat de nos travaux et proposer une démonstration ludique des capacités de l'IA en matière de prédiction de prix de l'immbolier 🔮 Attention, les résultats sont affichés à titre indicatif et nous ne garantissons aucun résultat ⚠️)
+st.markdown("**Fonctionnement de l'application** - L'application permet d'utiliser notre modèle d'XGBoost permettant d'estimer les prix de biens immobiliers situés dans l'une des métropoles suivantes: Paris🗼, Marseille☀️, Lyon🦁, Lille⛏, Bordeaux🍷, Toulouse🏉, Montpellier🏖️, Nantes🔰, Rennes🦌, Nice😎. Le modèle détecte automatiquement si le modèle est compatible avec l'adresse rentrée🔄. Il faut ensuite renseigner quelques informations sur la nature du bien et le prix est calculé 🏷️.)
+st.markdown("**Pour plus d'informations** sur le fonctionnement du modèle et du traitement de la donnée, notre travail est disponible sur la forme de package. La documentation est disponible sur le GitHub : https://github.com/SalahMouslih/Data-challenge)           
+             
 #------------------------------DEMANDE DE L'ADRESSE----------------------------------------------
 
 with st.sidebar:
