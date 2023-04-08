@@ -52,28 +52,6 @@ data = pd.read_csv('data_test.csv')
 
 #------------------------------DEMANDE DE L'ADRESSE----------------------------------------------
 
-#if 'long_lat_metropole' not in st.session_state:
-#    st.session_state['long_lat_metropole'] = False
-    
-#if st.session_state['long_lat_metropole'] == False:   
-    
- #   import googlemaps
- #   gmaps_key = googlemaps.Client(key = st.secrets['gmaps_key'])
-
- #   adresse =st.text_input("Veuillez entrer l'adresse:")
- #   geocode_result = gmaps_key.geocode(adresse)
-#   try:
-#        lat = geocode_result[0]["geometry"]["location"]["lat"]
-#        lon = geocode_result[0]["geometry"]["location"]["lon"]
-#        metropole = geocode_result[0]["adress_components"][2]["long_name"]
-#    except:
-#        lat = None
-#        lon = None
-#        metropole = None
- #   st.write(lat,lon,metropole)
- #   if lat != None:
-#        st.session_state['long_lat_metropole'] = [lat,lon,metropole]
-
 adresse = st.text_input("Veuillez entrer l'adresse:")
 
 if adresse != None:
@@ -81,8 +59,8 @@ if adresse != None:
     geo_response = requests.request("GET", GEOCODE_URL)
     geodata = json.loads(geo_response.text)
     try:
-     lat_lon = pd.DataFrame{'lat':geodata['results'][0]['geometry']['location']['lat'],
-               'lon':geodata['results'][0]['geometry']['location']['lng']}
+     lat_lon = pd.DataFrame({'lat':geodata['results'][0]['geometry']['location']['lat'],
+               'lon':geodata['results'][0]['geometry']['location']['lng']})
      ville = geodata['results'][0]['address_components'][2]["long_name"]
     except IndexError:
      lat_lon = None
