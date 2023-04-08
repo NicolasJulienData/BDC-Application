@@ -142,7 +142,7 @@ if type_bien == 'Appartement':
                         'D1':1000, #manque valeur
                         'D9':echantillon['D9'],
                         'Rapport_interdécile_D9/D1':float(echantillon['D9'])/1000,
-                        'S80/S20':2
+                        'S80/S20':2,
                         'Gini':echantillon['Gini'],                      
                         'Part_revenus_activite':30,
                         'Part_salaire':echantillon['Part_salaire'],
@@ -182,7 +182,7 @@ elif type_bien =='Maison':
                         'Ecart_inter_Q_rapporte_a_la_mediane':echantillon['Ecart_inter_Q_rapporte_a_la_mediane'],
                         'D9':echantillon['D9'],
                         'Rapport_interdécile_D9/D1':float(echantillon['D9'])/1000,
-                        'S80/S20':2
+                        'S80/S20':2,
                         'Gini':echantillon['Gini'],                      
                         'Part_salaire':echantillon['Part_salaire'],
                         'Part_revenus_chomage':echantillon['Part_revenus_chomage'],
