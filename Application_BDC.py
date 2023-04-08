@@ -59,7 +59,7 @@ if adresse != None:
     geo_response = requests.request("GET", GEOCODE_URL)
     geodata = json.loads(geo_response.text)
     try:
-     lat_lon = pd.DataFrame([geodata['results'][0]['geometry']['location']['lat'],geodata['results'][0]['geometry']['location']['lng']],
+     lat_lon = pd.DataFrame([0, geodata['results'][0]['geometry']['location']['lat'], geodata['results'][0]['geometry']['location']['lng']],
                             columns=['lat', 'lon'])
      ville = geodata['results'][0]['address_components'][2]["long_name"]
     except IndexError:
