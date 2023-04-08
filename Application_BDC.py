@@ -161,7 +161,7 @@ elif type_bien =='Maison':
                         'nombre_lots':echantillon['nombre_lots'],
                         'surface_reelle_bati':surface_reelle_bati,
                         'nombre_pieces_principales':nombre_pieces_principales,
-                        'surface_terrain':surface_terrain
+                        'surface_terrain':surface_terrain,
                         'latitude':lat_lon['lat'],
                         'trimestre_vente':echantillon['trimestre_vente'],
                         'prix_m2_zone':echantillon['prix_m2_zone'],
