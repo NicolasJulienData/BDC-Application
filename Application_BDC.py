@@ -21,6 +21,7 @@ import urllib.request
 from urllib.request import Request, urlopen
 from io import StringIO
 import pandas as pd
+import shap
 import requests
 
 import numpy as np  # np mean, np random
