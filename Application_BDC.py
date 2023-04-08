@@ -52,6 +52,22 @@ data = pd.read_csv('data_test.csv')
 
 #------------------------------DEMANDE DE L'ADRESSE----------------------------------------------
 
+import googlemaps
+gmaps_key = googlemaps.Client(key = st.secrets['gmaps_key'])
+
+adresse =st.text_input("Veuillez entrer l'adresse:")
+geocode_result = gmaps_key.geocode(adresse)
+try:
+    st.write(geocode_result)
+    lat = geocode_result[0]["geometry"]["location"]["lat"]
+    lon = geocode_result[0]["geometry"]["location"]["lon"]
+except:
+    lat = None
+    lon = None
+
+if lat != None:
+    st.write(lat,lon)
+
 # Input adresse
 # API Google Maps
 # Afficher la métropole/ type de bien
