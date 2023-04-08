@@ -79,8 +79,8 @@ GEOCODE_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='+adres
 geo_response = requests.request("GET", GEOCODE_URL)
 geodata = json.loads(geo_response.text)
 try:
- latlongmetro = [geodata['results'][0]['geometry']['location']['lat'],geodata['results'][0]['geometry']['location']['lng'],
-                 geodata['results'][0]["adress_components"][2]["long_name"]]
+ latlongmetro = [geodata['results'][0]['geometry']['location']['lat'],geodata['results'][0]['geometry']['location']['lng']]
+ st.write(geodata['results'][0])
 except IndexError:
  latlongmetro = None
  st.write('latlongmetro not found')
