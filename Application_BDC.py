@@ -6,6 +6,8 @@ Created on Fri Apr  7 15:33:55 2023
 @author: nicolasjulien
 """
 
+#------------------------------IMPORTS----------------------------------------------
+
 import time  # to simulate a real time data, time loop
 
 import requests
@@ -52,30 +54,42 @@ data = pd.read_csv('data_test.csv')
 
 #------------------------------DEMANDE DE L'ADRESSE----------------------------------------------
 
-adresse = st.text_input("Veuillez entrer l'adresse:")
+with st.sidebar:
+    adresse = st.text_input("Veuillez entrer l'adresse:")
 
-if adresse != None:
-    GEOCODE_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='+adresse+'&key='+st.secrets['gmaps_key']
-    geo_response = requests.request("GET", GEOCODE_URL)
-    geodata = json.loads(geo_response.text)
-    try:
-     lat_lon = pd.DataFrame({'lat':[geodata['results'][0]['geometry']['location']['lat']], 'lon':[geodata['results'][0]['geometry']['location']['lng']]})
-     ville = geodata['results'][0]['address_components'][2]["long_name"]
-    except IndexError:
-     lat_lon = None
-     ville = None
-     st.write('Adresse non trouvée')
-
+    if adresse != None:
+        GEOCODE_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='+adresse+'&key='+st.secrets['gmaps_key']
+        geo_response = requests.request("GET", GEOCODE_URL)
+        geodata = json.loads(geo_response.text)
+        try:
+         lat_lon = pd.DataFrame({'lat':[geodata['results'][0]['geometry']['location']['lat']], 'lon':[geodata['results'][0]['geometry']['location']['lng']]})
+         ville = geodata['results'][0]['address_components'][2]["long_name"]
+        except IndexError:
+         lat_lon = None
+         ville = None
+         st.write('Adresse non trouvée')
+    
+   type_bien = st.selectbox("Sélectionner le type de bien",("Appartement", "Maison"))
+   
+    if (type_bien != None) & (ville != None):
+        
+        nombre_pieces_principales = st.slider('Nombre de pièces principales', min_value = min(data['nombre_pieces_principales']),
+                                             max_value = max(data['nombre_pieces_principales']), value = np.mean(data['nombre_pieces_principales']), 
+                                             step = 1)
+        surface_reelle_bati = st.slider('Surface réelle du batiment (en mètres carrés)', min_value = min(data['surface_reelle_bati']),
+                                             max_value = max(data['surface_reelle_bati']), value = np.mean(data['surface_reelle_bati']))
+        if type_bien == "Maison":
+            
+            # surface_zone TO DO
+         
+    
 if len(lat_lon.index)!=0:
     st.write(lat_lon, ville)
     st.map(data=lat_lon)
 
-# Input adresse
-# API Google Maps
-# Afficher la métropole/ type de bien
-# charger le modele accordingly
-
 #------------------------------IMPORTATION DU MODELE----------------------------------------------
+
+
 
 pipe = joblib.load('Bordeaux-Metropole-Appartement-xgboost.joblib')
 preprocessor = pipe[:-1]
@@ -93,8 +107,8 @@ data_echantillon = pd.DataFrame({'adresse_nom_voie':echantillon['adresse_nom_voi
                     'nom_commune':echantillon['nom_commune'],
                     'code_departement':echantillon['code_departement'],
                     'nombre_lots':echantillon['nombre_lots'],
-                    'surface_reelle_bati':echantillon['surface_reelle_bati'],
-                    'nombre_pieces_principales':echantillon['nombre_pieces_principales'],
+                    'surface_reelle_bati':surface_reelle_bati,
+                    'nombre_pieces_principales':nombre_pieces_principales,
                     'latitude':200,
                     'trimestre_vente':echantillon['trimestre_vente'],
                     'prix_m2_zone':echantillon['prix_m2_zone'],
@@ -131,7 +145,8 @@ data_echantillon = pd.DataFrame({'adresse_nom_voie':echantillon['adresse_nom_voi
 #------------------------------PREDICTION----------------------------------------------
 
 prediction = pipe.predict(data_echantillon)
-st.write(float(prediction))
+st.write('Estimation du prix au mètre carré de votre bien immobilier : ', round(float(prediction),2), '€/mètre carré.')
+st.write('Estimation de la valeur de votre bien immobilier : ', round(float(prediction),2)*surface_relle_bati, '€.'
 
 # import matplotlib.pyplot as plt
 # from xgboost import plot_tree
