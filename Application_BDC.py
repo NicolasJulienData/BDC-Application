@@ -118,10 +118,12 @@ st.write(float(prediction))
 import matplotlib.pyplot as plt
 from xgboost import plot_tree
 plot_tree(xgb_model)
+st.write(plot_tree(xgb_model))
+st.pyplot(plot_tree(xgb_model))
 
 #explainer = shap.Explainer(pipe.predict, data_echantillon)
 #shap_values = explainer(X)
-#st.write(shap.plots.waterfall(shap_values[sample_ind], max_display=14))$
+#st.write(shap.plots.waterfall(shap_values[sample_ind], max_display=14))
 
 #------------------------------BONUS---------------------------------------------
 
