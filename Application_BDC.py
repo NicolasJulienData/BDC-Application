@@ -47,7 +47,7 @@ data = pd.read_csv(path, storage_options=storage_options)
 
 mLink = 'https://github.com/NicolasJulienData/BDC-Application/blob/main/Bordeaux-Métropole-Appartement-xgboost.joblib'
 
-pipe_1 = joblib.load(urlopen('Bordeaux-Metropole-Appartement-xgboost.joblib'))
+pipe_1 = joblib.load('Bordeaux-Metropole-Appartement-xgboost.joblib')
 pipe = joblib.load(urlopen('https://github.com/NicolasJulienData/BDC-Application/blob/main/Bordeaux-Metropole-Appartement-xgboost.joblib'))
 
 
