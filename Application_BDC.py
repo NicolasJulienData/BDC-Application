@@ -52,21 +52,27 @@ data = pd.read_csv('data_test.csv')
 
 #------------------------------DEMANDE DE L'ADRESSE----------------------------------------------
 
-import googlemaps
-gmaps_key = googlemaps.Client(key = st.secrets['gmaps_key'])
+if 'long_lat_metropole' not in st.session_state:
+    st.session_state['long_lat_metropole'] = False
+    
+if st.session_state['long_lat_metropole'] == False   
+    
+    import googlemaps
+    gmaps_key = googlemaps.Client(key = st.secrets['gmaps_key'])
 
-adresse =st.text_input("Veuillez entrer l'adresse:")
-geocode_result = gmaps_key.geocode(adresse)
-try:
-    lat = geocode_result[0]["geometry"]["location"]["lat"]
-    lon = geocode_result[0]["geometry"]["location"]["lon"]
-    metropole = geocode_result[0]["adress_components"][2]["long_name"]
-except:
-    lat = None
-    lon = None
-    metropole = None
-
-st.write(lat,lon,metropole)
+    adresse =st.text_input("Veuillez entrer l'adresse:")
+    geocode_result = gmaps_key.geocode(adresse)
+    try:
+        lat = geocode_result[0]["geometry"]["location"]["lat"]
+        lon = geocode_result[0]["geometry"]["location"]["lon"]
+        metropole = geocode_result[0]["adress_components"][2]["long_name"]
+    except:
+        lat = None
+        lon = None
+        metropole = None
+    st.write(lat,lon,metropole)
+    st.session_state['long_lat_metropole'] = [lat,lon,metropole]
+    
 
 # Input adresse
 # API Google Maps
