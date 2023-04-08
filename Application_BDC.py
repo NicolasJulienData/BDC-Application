@@ -73,8 +73,9 @@ data = pd.read_csv('data_test.csv')
  #   st.write(lat,lon,metropole)
  #   if lat != None:
 #        st.session_state['long_lat_metropole'] = [lat,lon,metropole]
-        
-GEOCODE_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='+customer['address'][0]+'&key='+st.secrets['gmaps_key']
+
+adresse = st.text_input("Veuillez entrer l'adresse:")
+GEOCODE_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='+adresse+'&key='+st.secrets['gmaps_key']
 geo_response = requests.request("GET", GEOCODE_URL)
 geodata = json.loads(geo_response.text)
 try:
