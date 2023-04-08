@@ -58,6 +58,7 @@ with st.sidebar:
     adresse = st.text_input("Veuillez entrer l'adresse:")
 
     if adresse != None:
+        
         GEOCODE_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='+adresse+'&key='+st.secrets['gmaps_key']
         geo_response = requests.request("GET", GEOCODE_URL)
         geodata = json.loads(geo_response.text)
