@@ -147,7 +147,7 @@ data_echantillon = pd.DataFrame({'adresse_nom_voie':echantillon['adresse_nom_voi
 
 prediction = pipe.predict(data_echantillon)
 st.write('Estimation du prix au mètre carré de votre bien immobilier : ', round(float(prediction),2), '€/mètre carré.')
-st.write('Estimation de la valeur de votre bien immobilier : ', round(float(prediction),2)*surface_relle_bati, '€.'
+st.write('Estimation de la valeur de votre bien immobilier : ', round(float(prediction),2)*surface_relle_bati, '€.')
 
 # import matplotlib.pyplot as plt
 # from xgboost import plot_tree
