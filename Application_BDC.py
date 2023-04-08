@@ -115,22 +115,10 @@ data_echantillon = pd.DataFrame({'adresse_nom_voie':echantillon['adresse_nom_voi
 prediction = pipe.predict(data_echantillon)
 st.write(float(prediction))
 
-import matplotlib.pyplot as plt
-from xgboost import plot_tree
-plot_tree(xgb_model)
-st.pyplot(plot_tree(xgb_model,num_trees=0, rankdir='LR').figure)
-
-import shap
-explainer = shap.Explainer(pipe.predict, data_echantillon)
-shap_values = explainer(data_echantillon)
-st.pyplot(shap.plots.waterfall(shap_values[0], max_display=14))
-
-#------------------------------BONUS---------------------------------------------
-
-#import shap
-#st.write(data_echantillon.values.reshape(1, -1))
-#prediction = pipe.predict(pd.DataFrame(data_echantillon.values.reshape(1, -1)))
-#st.write(prediction)
+# import matplotlib.pyplot as plt
+# from xgboost import plot_tree
+# plot_tree(xgb_model)
+# st.pyplot(plot_tree(xgb_model,num_trees=0, rankdir='LR').figure)
 
 #------------------------------BONUS---------------------------------------------
 
