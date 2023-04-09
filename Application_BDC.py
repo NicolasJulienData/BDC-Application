@@ -64,6 +64,7 @@ if adresse == '':
     st.markdown("**Pour plus d'informations** sur le fonctionnement du modèle et du traitement de la donnée, notre travail est disponible sur la forme de package. La documentation est disponible sur le GitHub : https://github.com/SalahMouslih/Data-challenge")           
 
 ville = None
+lat_lon = None
 with st.sidebar:
     if adresse != '':
         
