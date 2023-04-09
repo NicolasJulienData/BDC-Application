@@ -491,7 +491,7 @@ st.write('data: check')
 
 #------------------------------CHARGEMENT DES BASES DE DONNEES COMPLEMENTAIRES----------------------------------------------
 
-with st.spinner("Chargement des données..."):  
+for i in []:  
     
     data = load_data('Final.csv')
     st.write('data: check')
