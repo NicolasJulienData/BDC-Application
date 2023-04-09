@@ -494,7 +494,7 @@ import zipfile
 
 with st.spinner("Chargement des données..."):  
     
-    data = load_data('Final_csv')
+    data = load_data('Final.csv')
     iris_value = load_data('IRIS_donnees', delimiter=';')
     iris_shape = gpd.read_file('IRIS_contours.shp')
     
