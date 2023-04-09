@@ -480,7 +480,7 @@ def select_variables(dvf_geo, keep_columns = liste_var_garder):
 if 'data' not in st.session_state:
     st.session_state['data'] = []
 
-if st.session_state['data'] == []
+if st.session_state['data'] == []:
     with st.spinner('Chargement des données:'):
         data = pd.read_csv('Final.csv')
         st.write('data: check')
