@@ -478,9 +478,7 @@ def select_variables(dvf_geo, keep_columns = liste_var_garder):
 
     
 @st.cache_data
-def load_data_from_drive(url, delimiter = None, header = 0, geopanda=False):
-    path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
-    storage_options = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
+def load_data(path, delimiter = None, header = 0, geopanda=False):
     if delimiter != None:
         if header == 0:
             return(pd.read_csv(path, delimiter = delimiter, storage_options=storage_options))
@@ -496,15 +494,15 @@ import zipfile
 
 with st.spinner("Chargement des données..."):  
     
-    data = load_data_from_drive('https://drive.google.com/file/d/1CgGNYXtoNHpyGFFc3eIygvu2VEIlkljX/view?usp=sharing')
-    iris_value = load_data_from_drive('https://drive.google.com/file/d/17FAvgxgAeOFcwI_B8GMCXdQDUoIC28vt/view?usp=sharing', delimiter=';')
+    data = load_data_from_drive('Final_csv')
+    iris_value = load_data_from_drive('IRIS_donnees', delimiter=';')
     iris_shape = gpd.read_file('IRIS_contours.shp')
     
-    amenities = load_data_from_drive('https://drive.google.com/file/d/1cAON4kHaFTX7_QMucSFPqJqYQYgxkCF4/view?usp=sharing', delimiter=';')
-    geo_etab = load_data_from_drive('https://drive.google.com/file/d/1gW-AeHx45B_DLHu1NjNzaq3zSK5ZjjrM/view?usp=sharing', delimiter=';')
-    brevet = load_data_from_drive('https://drive.google.com/file/d/1Npgly_errYJJriQ8BM0BjtWNstmXO2nu/view?usp=sharing', delimiter=';')
-    lyc = load_data_from_drive('https://drive.google.com/file/d/1oa5HaIRuN_xRW0vGKBMGBxC2dSV9t-dj/view?usp=sharing', delimiter=';')
-    metropoles = load_data_from_drive('https://drive.google.com/file/d/1egJe47iwSZa9W7T_2Dn4Uewifov64xMK/view?usp=sharing', delimiter=';', header = 5)
+    amenities = load_data_from_drive('bpe21_ensemble_xy.csv', delimiter=';')
+    geo_etab = load_data_from_drive('geo_brevet.csv', delimiter=';')
+    brevet = load_data_from_drive('resultats_brevet.csv', delimiter=';')
+    lyc = load_data_from_drive('resultats_lycées.csv', delimiter=';')
+    metropoles = load_data_from_drive('metropoles_communes.csv', delimiter=';', header = 5)
     
     st.write(data)
     data_2 = load_data_from_drive('https://drive.google.com/file/d/1CgGNYXtoNHpyGFFc3eIygvu2VEIlkljX/view?usp=sharing', delimiter=';')
