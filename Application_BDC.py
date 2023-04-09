@@ -488,7 +488,10 @@ def load_data(path, delimiter = None, header = 0, geopanda=False):
 
 #------------------------------CHARGEMENT DES BASES DE DONNEES COMPLEMENTAIRES----------------------------------------------
 
+pd.read_csv('bpe21_ensemble_xy.csv')
+st.write('bpe import ok')
 base = []
+
 liste_path = ['Final.csv','IRIS_donnees.csv','bpe21_ensemble_xy.csv','geo_brevet.csv','resultats_brevet.csv','resultats_lycées.csv','metropoles_communes.csv']
 for path in stqdm(liste_path):
     base.append(load_data(path,delimiter=';'))
