@@ -491,14 +491,21 @@ def load_data(path, delimiter = None, header = 0, geopanda=False):
 with st.spinner("Chargement des données..."):  
     
     data = load_data('Final.csv')
+    st.write('data: check')
     iris_value = load_data('IRIS_donnees.csv', delimiter=';')
+    st.write('iris value: check')
     iris_shape = gpd.read_file('IRIS_contours.shp')
-    
+    st.write('iris shape: check')   
     amenities = load_data('bpe21_ensemble_xy.csv', delimiter=';')
+    st.write('amenities: check')
     geo_etab = load_data('geo_brevet.csv', delimiter=';')
+    st.write('geo etab: check')
     brevet = load_data('resultats_brevet.csv', delimiter=';')
+    st.write('brevet: check')
     lyc = load_data('resultats_lycées.csv', delimiter=';')
+    st.write('lyc: check')
     metropoles = load_data('metropoles_communes.csv', delimiter=';', header = 5)
+    st.write('metropoles: check')
     
     st.write(data)
     data_2 = load_data_from_drive('https://drive.google.com/file/d/1CgGNYXtoNHpyGFFc3eIygvu2VEIlkljX/view?usp=sharing', delimiter=';')
