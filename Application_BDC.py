@@ -65,6 +65,7 @@ if adresse == '':
 
 ville = None
 lat_lon = None
+type_bien = None
 with st.sidebar:
     if adresse != '':
         
