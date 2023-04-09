@@ -97,7 +97,7 @@ if ville != None:
 #------------------------------INPUT DES CARACTERISTIQUES DU BIEN----------------------------------------------
 
 
-if (type(lat_lon) != 'NoneType') & (len(data) != 0):
+if (type(lat_lon) != NoneType) & (len(data) != 0):
     with st.sidebar:
 
         if (type_bien != None) & (ville != None):
@@ -112,8 +112,6 @@ if (type(lat_lon) != 'NoneType') & (len(data) != 0):
                                                  max_value = 10000, value=500)       
     col1, col2 = st.columns(2)
     with col1:
-        st.write(type(lat_lon),len(data))
-        st.write((type(lat_lon) != 'NoneType') & (len(data) != 0))
         st.map(data=lat_lon)
 
 #------------------------------IMPORTATION DU MODELE----------------------------------------------
