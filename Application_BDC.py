@@ -46,24 +46,29 @@ st.title("Immobil.ia - Business Data Challenge ENSAE x MeilleurTaux")
 
 col_1, col_2 = st.columns(2)
 with col_2:
+    st.write('') #Saut de ligne
+    st.write('') #Saut de ligne
     st.image("https://www.meilleurtaux.com/images_html/new-logo-mtx.svg", width = 270)
 with col_1:
     st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/LOGO-ENSAE.png/800px-LOGO-ENSAE.png", width = 180)
-
-
 st.markdown("### Immobil.ia : l'application qui te permet d'estimer le prix de ton bien immobilier 🏠🏢") 
-NoneType = type(None) 
+
+NoneType = type(None) # Création d'un NoneType pour les conditions
+
+col1, col2 = st.columns(2) # Création d'autres colonnes par la suite
          
 #------------------------------DEMANDE DE L'ADRESSE----------------------------------------------
 
 with st.sidebar:
     adresse = st.text_input("Veuillez entrer l'adresse:")
-    
+
+#------------------------------SI PAS D'ADRESSE RENTREE : PAGE DE PRESENTATION----------------------------------------------
 if adresse == '':
     st.markdown("**Présentation de l'application** - Cette application a été créée dans le cadre du projet académique *Business Data Challenge* de l'ENSAE effectué en partenariat avec meilleurtaux.com 📈. Elle a été créée dans le but d'exposer le résultat de nos travaux et proposer une démonstration ludique des capacités de l'IA en matière de prédiction de prix de l'immbolier 🔮 Attention, les résultats sont affichés à titre indicatif et nous ne garantissons aucun résultat ⚠️")
     st.markdown("**Fonctionnement de l'application** - L'application permet d'utiliser notre modèle d'XGBoost permettant d'estimer les prix de biens immobiliers situés dans l'une des métropoles suivantes: Paris🗼, Marseille☀️, Lyon🦁, Lille⛏, Bordeaux🍷, Toulouse🏉, Montpellier🏖️, Nantes🔰, Rennes🦌, Nice😎. Le modèle détecte automatiquement si le modèle est compatible avec l'adresse rentrée🔄. Il faut ensuite renseigner quelques informations sur la nature du bien et le prix est calculé 🏷️.")
     st.markdown("**Pour plus d'informations** sur le fonctionnement du modèle et du traitement de la donnée, notre travail est disponible sur la forme de package. La documentation est disponible sur le GitHub : https://github.com/SalahMouslih/Data-challenge")           
 
+#------------------------------API MAPS, MESSAGE D'ERREUR DANS LA SIDEBAR----------------------------------------------
 
 with st.sidebar:
         
@@ -82,158 +87,163 @@ with st.sidebar:
         st.write('Adresse non trouvée')
 
     type_bien = st.selectbox("Sélectionner le type de bien",("Appartement", "Maison"))
-        
-        
+
+#------------------------------AFFICHAGE DE LA MAP SI ON A BIEN UNE LAT LONG----------------------------------------------    
+
+with col1:
+    if type(lat_lon) != Nonetype:
+        st.map(data=lat_lon)
+
+#------------------------------IMPORTATION DU MODELE----------------------------------------------
+
+Bool_User_Ville_Succesful = np.isin(ville,['Paris','Marseille','Lyon','Lille','Bordeaux','Toulouse','Nice','Nantes','Montpellier','Rennes'])
+
+if Bool_User_Ville_Succesful:
+
+    pipe = joblib.load('{}-{}.joblib'.format(ville,type_bien))
+    
+    with col2:
+        st.write('Modele Chargé pour la ville de {} pour un bien de type {}'.format(ville,type_bien))
+    preprocessor = pipe[:-1]
+    st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
+    xgb_model = pipe[-1]
+    
+else:
+    with col_2:
+        st.write("La ville de {} n'est pas couverte par notre modèle. Veuillez réessayer dans l'une des métropoles suivantes : Paris, Marseille, Lyon, Lille, Bordeaux, Toulouse, Nice, Nantes, Montpellier, Rennes".format{ville})
+
 #------------------------------IMPORTATION DE LA BASE DE DONNEES TEST----------------------------------------------
 
 #url = "https://drive.google.com/file/d/1PIdlpGqh8UoFYOUZCuE9kZ2ShEQTg3q1/view?usp=sharing"
 #path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
 #storage_options = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
 #data = pd.read_csv(path, storage_options=storage_options)
-data = pd.read_csv('data_test.csv')
 
-if ville != None:
+
+if Bool_User_Ville_Succesful:
+   
+    data = pd.read_csv('data_test.csv')
     data = data[(data['nom_commune']==ville)&(data['type_local']==type_bien)]
 
-#------------------------------INPUT DES CARACTERISTIQUES DU BIEN----------------------------------------------
+#------------------------------INPUT DES AUTRES CARACTERISTIQUES DU BIEN----------------------------------------------
 
-
-if (type(lat_lon) != NoneType) & (len(data) != 0):
     with st.sidebar:
-
-        if (type_bien != None) & (ville != None):
 
             nombre_pieces_principales = st.slider('Nombre de pièces principales', min_value = int(min(data['nombre_pieces_principales'])),
                                                  max_value = int(max(data['nombre_pieces_principales'])), value = int(np.mean(data['nombre_pieces_principales'])), 
                                                  step = 1)
+            
             surface_reelle_bati = st.slider('Surface réelle du batiment (en mètres carrés)', min_value = float(min(data['surface_reelle_bati'])),
                                                  max_value = float(max(data['surface_reelle_bati'])), value = float(np.mean(data['surface_reelle_bati'])))
-            if type_bien == "Maison":
+            
+            nombre_lots = st.slider('Nombre de lots', min_value = 0, max_value = 2, value = int(np.mean(data['nombre_lots'])), step = 1)
+            
+            trimestre_vente = st.selectbox("Trimestre Vente",data['trimestre_vente'].unique())
+            
+            if type_bien == "Maison":             
                 surface_terrain = st.slider('Surface du terrain de la maison (en mètres carrés)', min_value = 0,
                                                  max_value = 10000, value=500)       
-    col1, col2 = st.columns(2)
-    with col1:
-        st.map(data=lat_lon)
 
-#------------------------------IMPORTATION DU MODELE----------------------------------------------
+    #------------------------------CREATION DE LA DONNEE ENTRANTE COMPLETE----------------------------------------------
 
-if np.isin(ville,['Paris','Marseille','Lyon','Lille','Bordeaux','Toulouse','Nice','Nantes','Montpellier','Rennes']):
+    echantillon = data.sample(1)
+    st.write(echantillon)        
 
-    pipe = joblib.load('{}-{}.joblib'.format(ville,type_bien))
-    with col2:
-        st.write('Modele Chargé pour la ville de {} pour un bien de type {}'.format(ville,type_bien))
-    preprocessor = pipe[:-1]
-    st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
-    xgb_model = pipe[-1]
-else:
-    st.write("Ville non couverte par notre modèle. Veuillez réessayer dans l'une des métropoles suivantes : Paris, Marseille, Lyon, Lille, Bordeaux, Toulouse, Nice, Nantes, Montpellier, Rennes")
-
-#------------------------------CREATION DE LA DONNEE ENTRANTE COMPLETE----------------------------------------------
-
-echantillon = data.sample(1)
-st.write(echantillon)
-
-with st.sidebar:
-    nombre_lots = st.slider('Nombre de lots', min_value = int(min(data['nombre_lots'])),
-                                                 max_value = int(max(data['nombre_lots'])), value = int(np.mean(data['nombre_lots'])), 
-                                                 step = 1)
-    trimestre_vente = st.selectbox("Trimestre Vente",data['trimestre_vente'].unique())
-
-if type_bien == 'Appartement':
-    data_echantillon = pd.DataFrame({'adresse_nom_voie':adresse_nom_voie,
-                        'nom_commune':ville,
-                        'code_departement':code_departement,
-                        'nombre_lots':nombre_lots,
-                        'surface_reelle_bati':surface_reelle_bati,
-                        'nombre_pieces_principales':nombre_pieces_principales,
-                        'latitude':float(lat_lon['lat']),
-                        'trimestre_vente':trimestre_vente,
-                        'prix_m2_zone':echantillon['prix_m2_zone'],
-                        'moyenne':echantillon['moyenne'],
-                        'moyenne_brevet':echantillon['moyenne_brevet'],
-                        'Banques':echantillon['Banques'],
-                        'Bureaux_de_Poste':echantillon['Bureaux_de_Poste'],
-                        'Commerces':echantillon['Commerces'],
-                        'Ecoles':echantillon['Ecoles'],
-                        'Collèges_Lycées':echantillon['Collèges_Lycées'],
-                        'Medecins':echantillon['Medecins'],
-                        'Gares':echantillon['Gares'],
-                        'Cinema':echantillon['Cinema'],
-                        'Bibliotheques':echantillon['Bibliotheques'],
-                        'Espaces_remarquables_et_patrimoine':echantillon['Espaces_remarquables_et_patrimoine'],
-                        'Taux_pauvreté_seuil_60':echantillon['Taux_pauvreté_seuil_60'],
-                        'Q1':echantillon['Q1'],
-                        'Mediane':echantillon['moyenne'],#attention il manque la mediane jsp pk
-                        'Ecart_inter_Q_rapporte_a_la_mediane':echantillon['Ecart_inter_Q_rapporte_a_la_mediane'],
-                        'D1':1000, #manque valeur
-                        'D9':echantillon['D9'],
-                        'Rapport_interdécile_D9/D1':float(echantillon['D9'])/1000,
-                        'S80/S20':2,
-                        'Gini':echantillon['Gini'],                      
-                        'Part_revenus_activite':30,
-                        'Part_salaire':echantillon['Part_salaire'],
-                        'Part_revenus_chomage':echantillon['Part_revenus_chomage'],
-                        'Part_revenus_non_salariées':echantillon['Part_revenus_non_salariées'],
-                        'Part_retraites':echantillon['Part_retraites'],
-                        'Part_revenus_patrimoine':echantillon['Part_revenus_patrimoine'],
-                        'Part_prestations_sociales':20,
-                        'Part_impôts':echantillon['Part_impôts']                 
-        })
-    
-elif type_bien =='Maison':
+    if type_bien == 'Appartement':
         data_echantillon = pd.DataFrame({'adresse_nom_voie':adresse_nom_voie,
-                        'nom_commune':ville,
-                        'code_departement':code_departement,
-                        'nombre_lots':nombre_lots,
-                        'surface_reelle_bati':surface_reelle_bati,
-                        'nombre_pieces_principales':nombre_pieces_principales,
-                        'surface_terrain':surface_terrain,
-                        'latitude':float(lat_lon['lat']),
-                        'trimestre_vente':trimestre_vente,
-                        'prix_m2_zone':echantillon['prix_m2_zone'],
-                        'moyenne':echantillon['moyenne'],
-                        'moyenne_brevet':echantillon['moyenne_brevet'],
-                        'Banques':echantillon['Banques'],
-                        'Bureaux_de_Poste':echantillon['Bureaux_de_Poste'],
-                        'Commerces':echantillon['Commerces'],
-                        'Ecoles':echantillon['Ecoles'],
-                        'Collèges_Lycées':echantillon['Collèges_Lycées'],
-                        'Medecins':echantillon['Medecins'],
-                        'Gares':echantillon['Gares'],
-                        'Cinema':echantillon['Cinema'],
-                        'Bibliotheques':echantillon['Bibliotheques'],
-                        'Espaces_remarquables_et_patrimoine':echantillon['Espaces_remarquables_et_patrimoine'],
-                        'Taux_pauvreté_seuil_60':echantillon['Taux_pauvreté_seuil_60'],
-                        'Q1':echantillon['Q1'],
-                        'Ecart_inter_Q_rapporte_a_la_mediane':echantillon['Ecart_inter_Q_rapporte_a_la_mediane'],
-                        'D9':echantillon['D9'],
-                        'Rapport_interdécile_D9/D1':float(echantillon['D9'])/1000,
-                        'S80/S20':2,
-                        'Gini':echantillon['Gini'],                      
-                        'Part_salaire':echantillon['Part_salaire'],
-                        'Part_revenus_chomage':echantillon['Part_revenus_chomage'],
-                        'Part_revenus_non_salariées':echantillon['Part_revenus_non_salariées'],
-                        'Part_retraites':echantillon['Part_retraites'],
-                        'Part_revenus_patrimoine':echantillon['Part_revenus_patrimoine'],
-                        'Part_prestations_sociales':20,
-                        'Part_impôts':echantillon['Part_impôts']                 
-        })
+                            'nom_commune':ville,
+                            'code_departement':code_departement,
+                            'nombre_lots':nombre_lots,
+                            'surface_reelle_bati':surface_reelle_bati,
+                            'nombre_pieces_principales':nombre_pieces_principales,
+                            'latitude':float(lat_lon['lat']),
+                            'trimestre_vente':trimestre_vente,
+                            'prix_m2_zone':echantillon['prix_m2_zone'],
+                            'moyenne':echantillon['moyenne'],
+                            'moyenne_brevet':echantillon['moyenne_brevet'],
+                            'Banques':echantillon['Banques'],
+                            'Bureaux_de_Poste':echantillon['Bureaux_de_Poste'],
+                            'Commerces':echantillon['Commerces'],
+                            'Ecoles':echantillon['Ecoles'],
+                            'Collèges_Lycées':echantillon['Collèges_Lycées'],
+                            'Medecins':echantillon['Medecins'],
+                            'Gares':echantillon['Gares'],
+                            'Cinema':echantillon['Cinema'],
+                            'Bibliotheques':echantillon['Bibliotheques'],
+                            'Espaces_remarquables_et_patrimoine':echantillon['Espaces_remarquables_et_patrimoine'],
+                            'Taux_pauvreté_seuil_60':echantillon['Taux_pauvreté_seuil_60'],
+                            'Q1':echantillon['Q1'],
+                            'Mediane':echantillon['moyenne'],#attention il manque la mediane jsp pk
+                            'Ecart_inter_Q_rapporte_a_la_mediane':echantillon['Ecart_inter_Q_rapporte_a_la_mediane'],
+                            'D1':1000, #manque valeur
+                            'D9':echantillon['D9'],
+                            'Rapport_interdécile_D9/D1':float(echantillon['D9'])/1000,
+                            'S80/S20':2,
+                            'Gini':echantillon['Gini'],                      
+                            'Part_revenus_activite':30,
+                            'Part_salaire':echantillon['Part_salaire'],
+                            'Part_revenus_chomage':echantillon['Part_revenus_chomage'],
+                            'Part_revenus_non_salariées':echantillon['Part_revenus_non_salariées'],
+                            'Part_retraites':echantillon['Part_retraites'],
+                            'Part_revenus_patrimoine':echantillon['Part_revenus_patrimoine'],
+                            'Part_prestations_sociales':20,
+                            'Part_impôts':echantillon['Part_impôts']                 
+            })
 
-#------------------------------PREDICTION----------------------------------------------
+    elif type_bien =='Maison':
+            data_echantillon = pd.DataFrame({'adresse_nom_voie':adresse_nom_voie,
+                            'nom_commune':ville,
+                            'code_departement':code_departement,
+                            'nombre_lots':nombre_lots,
+                            'surface_reelle_bati':surface_reelle_bati,
+                            'nombre_pieces_principales':nombre_pieces_principales,
+                            'surface_terrain':surface_terrain,
+                            'latitude':float(lat_lon['lat']),
+                            'trimestre_vente':trimestre_vente,
+                            'prix_m2_zone':echantillon['prix_m2_zone'],
+                            'moyenne':echantillon['moyenne'],
+                            'moyenne_brevet':echantillon['moyenne_brevet'],
+                            'Banques':echantillon['Banques'],
+                            'Bureaux_de_Poste':echantillon['Bureaux_de_Poste'],
+                            'Commerces':echantillon['Commerces'],
+                            'Ecoles':echantillon['Ecoles'],
+                            'Collèges_Lycées':echantillon['Collèges_Lycées'],
+                            'Medecins':echantillon['Medecins'],
+                            'Gares':echantillon['Gares'],
+                            'Cinema':echantillon['Cinema'],
+                            'Bibliotheques':echantillon['Bibliotheques'],
+                            'Espaces_remarquables_et_patrimoine':echantillon['Espaces_remarquables_et_patrimoine'],
+                            'Taux_pauvreté_seuil_60':echantillon['Taux_pauvreté_seuil_60'],
+                            'Q1':echantillon['Q1'],
+                            'Ecart_inter_Q_rapporte_a_la_mediane':echantillon['Ecart_inter_Q_rapporte_a_la_mediane'],
+                            'D9':echantillon['D9'],
+                            'Rapport_interdécile_D9/D1':float(echantillon['D9'])/1000,
+                            'S80/S20':2,
+                            'Gini':echantillon['Gini'],                      
+                            'Part_salaire':echantillon['Part_salaire'],
+                            'Part_revenus_chomage':echantillon['Part_revenus_chomage'],
+                            'Part_revenus_non_salariées':echantillon['Part_revenus_non_salariées'],
+                            'Part_retraites':echantillon['Part_retraites'],
+                            'Part_revenus_patrimoine':echantillon['Part_revenus_patrimoine'],
+                            'Part_prestations_sociales':20,
+                            'Part_impôts':echantillon['Part_impôts']                 
+            })
 
-prediction = pipe.predict(data_echantillon)
+    #------------------------------PREDICTION----------------------------------------------
 
-with col2:
-    st.write('Estimation du prix au mètre carré de votre bien immobilier : ', round(float(prediction),2), '€/mètre carré.')
-    st.write('Estimation de la valeur de votre bien immobilier : ', int(float(prediction)*surface_reelle_bati), '€.')
+    prediction = pipe.predict(data_echantillon)
 
-# import matplotlib.pyplot as plt
-# from xgboost import plot_tree
-# plot_tree(xgb_model)
-# st.pyplot(plot_tree(xgb_model,num_trees=0, rankdir='LR').figure)
+    with col2:
+        st.write('Estimation du prix au mètre carré de votre bien immobilier : ', round(float(prediction),2), '€/mètre carré.')
+        st.write('Estimation de la valeur de votre bien immobilier : ', int(float(prediction)*surface_reelle_bati), '€.')
 
-#------------------------------BONUS---------------------------------------------
+    # import matplotlib.pyplot as plt
+    # from xgboost import plot_tree
+    # plot_tree(xgb_model)
+    # st.pyplot(plot_tree(xgb_model,num_trees=0, rankdir='LR').figure)
 
-#Afficher l'adresse sur une Map
-#Ajouter Feature Importance
-#Ajouter Intervalle Confiance
+    #------------------------------BONUS---------------------------------------------
+
+    #Afficher l'adresse sur une Map
+    #Ajouter Feature Importance
+    #Ajouter Intervalle Confiance
