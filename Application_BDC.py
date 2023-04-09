@@ -469,40 +469,33 @@ def select_variables(dvf_geo, keep_columns = liste_var_garder):
     except Exception as e:
         print(f"An error occurred: {e}")
         return None  
-    
-    
-data = pd.read_csv('Final.csv')
-st.write('data: check')
-#iris_value = pd.read_csv('IRIS_donnees.csv', delimiter=';')
-#st.write('iris value: check')
-#iris_shape = gpd.read_file('IRIS_contours.shp')
-#st.write('iris shape: check') 
 
 #------------------------------CHARGEMENT DES BASES DE DONNEES COMPLEMENTAIRES----------------------------------------------
 
-#if 'data' not in st.session_state:
-#    st.session_state['data'] = []
+if 'data' not in st.session_state:
+    st.session_state['data'] = []
 
-#if st.session_state['data'] == []:
- #   data = pd.read_csv('Final.csv')
-#    st.write('data: check')
-#    iris_value = pd.read_csv('IRIS_donnees.csv', delimiter=';')
-#    st.write('iris value: check')
- #   iris_shape = gpd.read_file('IRIS_contours.shp')
-#    st.write('iris shape: check')   
- #   amenities = pd.read_csv('bpe21_ensemble_xy.csv', delimiter=';')
-#    st.write('amenities: check')
-#    geo_etab = pd.read_csv('geo_brevet.csv', delimiter=';')
-#    st.write('geo etab: check')
-#    brevet = pd.read_csv('resultats_brevet.csv', delimiter=';')
-#    st.write('brevet: check')
-#    lyc = pd.read_csv('resultats_lycées.csv', delimiter=';')
-#    st.write('lyc: check')
-#    metropoles = pd.read_csv('metropoles_communes.csv', delimiter=';', header = 5)
- #   st.write('metropoles: check')
- #   st.session_state['data'] = [data, iris_value, iris_shape, amenities, geo_etab, brevet, lyc, metropoles]
+if st.session_state['data'] == []:
+    with st.spinner("Chargement des données"):
+        data = pd.read_csv('Final.csv')
+        st.write('data: check')
+        iris_value = pd.read_csv('IRIS_donnees.csv', delimiter=';')
+        st.write('iris value: check')
+        iris_shape = gpd.read_file('IRIS_contours.shp')
+        st.write('iris shape: check')   
+        amenities = pd.read_csv('bpe21_ensemble_xy.csv', delimiter=';')
+        st.write('amenities: check')
+        geo_etab = pd.read_csv('geo_brevet.csv', delimiter=';')
+        st.write('geo etab: check')
+        brevet = pd.read_csv('resultats_brevet.csv', delimiter=';')
+        st.write('brevet: check')
+        lyc = pd.read_csv('resultats_lycées.csv', delimiter=';')
+        st.write('lyc: check')
+        metropoles = pd.read_csv('metropoles_communes.csv', delimiter=';', header = 5)
+        st.write('metropoles: check')
+        st.session_state['data'] = [data, iris_value, iris_shape, amenities, geo_etab, brevet, lyc, metropoles]
  
-#[data, iris_value, iris_shape, amenities, geo_etab, brevet, lyc, metropoles] = st.session_state['data']
+[data, iris_value, iris_shape, amenities, geo_etab, brevet, lyc, metropoles] = st.session_state['data']
          
 #------------------------------DEMANDE DE L'ADRESSE----------------------------------------------
 
@@ -570,8 +563,7 @@ else:
 
 if Bool_User_Ville_Succesful:
    
-    data_test = pd.read_csv('data_test.csv')
-    data_test = data_test[(data_test['nom_commune']==ville) & (data_test['type_local']==type_bien)]
+    data = data[(data['nom_commune']==ville) & (data['type_local']==type_bien)]
 
 #------------------------------INPUT DES AUTRES CARACTERISTIQUES DU BIEN----------------------------------------------
 
@@ -594,7 +586,7 @@ if Bool_User_Ville_Succesful:
       
 
     if type_bien == 'Appartement':
-        surface_terrain = np.nan()
+        surface_terrain = np.nan
         
     test_data = pd.DataFrame({'code_departement':code_departement,
                                   'nombre_lots':nombre_lots,
