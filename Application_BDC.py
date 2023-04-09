@@ -89,7 +89,9 @@ with st.sidebar:
 #storage_options = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
 #data = pd.read_csv(path, storage_options=storage_options)
 data = pd.read_csv('data_test.csv')
-data = data[(data['nom_commune']==ville)&(data['type_local']==type_bien)]
+
+if ville != None:
+    data = data[(data['nom_commune']==ville)&(data['type_local']==type_bien)]
 
 #------------------------------INPUT DES CARACTERISTIQUES DU BIEN----------------------------------------------
 
