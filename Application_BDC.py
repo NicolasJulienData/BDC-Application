@@ -469,6 +469,22 @@ def select_variables(dvf_geo, keep_columns = liste_var_garder):
     except Exception as e:
         print(f"An error occurred: {e}")
         return None  
+data = pd.read_csv('Final.csv')
+st.write('data: check')
+iris_value = pd.read_csv('IRIS_donnees.csv', delimiter=';')
+st.write('iris value: check')
+iris_shape = gpd.read_file('IRIS_contours.shp')
+st.write('iris shape: check')   
+amenities = pd.read_csv('bpe21_ensemble_xy.csv', delimiter=';')
+st.write('amenities: check')
+geo_etab = pd.read_csv('geo_brevet.csv', delimiter=';')
+st.write('geo etab: check')
+brevet = pd.read_csv('resultats_brevet.csv', delimiter=';')
+st.write('brevet: check')
+lyc = pd.read_csv('resultats_lycées.csv', delimiter=';')
+st.write('lyc: check')
+metropoles = pd.read_csv('metropoles_communes.csv', delimiter=';', header = 5)
+st.write('metropoles: check')
 
 #------------------------------CHARGEMENT DES BASES DE DONNEES COMPLEMENTAIRES----------------------------------------------
 
