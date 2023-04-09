@@ -498,12 +498,7 @@ with st.spinner("Chargement des données..."):
     
     data = load_data_from_drive('https://drive.google.com/file/d/1CgGNYXtoNHpyGFFc3eIygvu2VEIlkljX/view?usp=sharing')
     iris_value = load_data_from_drive('https://drive.google.com/file/d/17FAvgxgAeOFcwI_B8GMCXdQDUoIC28vt/view?usp=sharing', delimiter=';')
-    
-    iris_shape_url = 'https://drive.google.com/file/d/1gDbiF4Bbo3ymIMh7VRhts8BI5C1OcpUr/view?usp=sharing'
-    iris_shape_path = 'https://drive.google.com/uc?export=download&id='+iris_shape_url.split('/')[-2]
-    r = requests.get(iris_shape_path)
-    z = zipfile.ZipFile(io.BytesIO(r.content))
-    iris_shape = gpd.read_file(z)
+    iris_shape = gpd.read_file('IRIS_contours.shp')
     
     amenities = load_data_from_drive('https://drive.google.com/file/d/1cAON4kHaFTX7_QMucSFPqJqYQYgxkCF4/view?usp=sharing', delimiter=';')
     geo_etab = load_data_from_drive('https://drive.google.com/file/d/1gW-AeHx45B_DLHu1NjNzaq3zSK5ZjjrM/view?usp=sharing', delimiter=';')
