@@ -545,7 +545,7 @@ if Bool_User_Ville_Succesful:
     with col2:
         st.write('Modele Chargé pour la ville de {} pour un bien de type {}'.format(ville,type_bien))
     preprocessor = pipe[:-1]
-    st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
+#    st.write(preprocessor.named_steps, preprocessor.feature_names_in_)
     xgb_model = pipe[-1]
     
 else:
@@ -562,12 +562,18 @@ else:
 
 
 if Bool_User_Ville_Succesful:
+    
+    data = pd.read_csv('Final.csv')
+    st.write('data: check')
+    data = data[(data['nom_commune']==ville) & (data['type_local']==type_bien)]
+    
+    iris_shape = gpd.read_file('IRIS_contours.shp')
+    st.write('iris shape: check') 
+    
     amenities = pd.read_csv('bpe21_ensemble_xy.csv', delimiter=';')
     st.write('amenities: check')
     iris_value = pd.read_csv('IRIS_donnees.csv', delimiter=';')
-    st.write('iris value: check')
-    iris_shape = gpd.read_file('IRIS_contours.shp')
-    st.write('iris shape: check')   
+    st.write('iris value: check')      
     geo_etab = pd.read_csv('geo_brevet.csv', delimiter=';')
     st.write('geo etab: check')
     brevet = pd.read_csv('resultats_brevet.csv', delimiter=';')
@@ -576,9 +582,6 @@ if Bool_User_Ville_Succesful:
     st.write('lyc: check')
     metropoles = pd.read_csv('metropoles_communes.csv', delimiter=';', header = 5)
     st.write('metropoles: check')
-    data = pd.read_csv('Final.csv')
-    st.write('data: check')
-    data = data[(data['nom_commune']==ville) & (data['type_local']==type_bien)]
 
 #------------------------------INPUT DES AUTRES CARACTERISTIQUES DU BIEN----------------------------------------------
 
@@ -676,7 +679,7 @@ if Bool_User_Ville_Succesful:
 
     #------------------------------PREDICTION----------------------------------------------
     
-    test_result = result=prepreocessing_to_predict(test_data)
+    test_result = prepreocessing_to_predict(test_data)
     prediction = pipe.predict(test_result)
 
     with col2:
