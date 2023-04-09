@@ -11,8 +11,6 @@ Created on Fri Apr  7 15:33:55 2023
 import time  # to simulate a real time data, time loop
 
 import requests
-from bs4 import BeautifulSoup
-from PIL import Image
 import re  
 import json as json 
 from requests_html import HTMLSession 
