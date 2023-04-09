@@ -8,8 +8,6 @@ Created on Fri Apr  7 15:33:55 2023
 
 #------------------------------IMPORTS----------------------------------------------
 
-import time  # to simulate a real time data, time loop
-
 import requests
 import re  
 import json as json 
@@ -28,8 +26,6 @@ import numpy as np  # np mean, np random
 import pandas as pd  # read csv, df manipulation
 import geopandas as gpd
 
-import plotly.express as px  # interactive charts
-
 import sklearn
 from sklearn.neighbors import BallTree
 from sklearn.linear_model import LinearRegression
@@ -39,7 +35,6 @@ from joblib import Parallel, delayed
 
 import xgboost
 import streamlit as st  # 🎈 data web app development
-from stqdm import stqdm
 
 #------------------------------PRESENTATION DE LA PAGE----------------------------------------------
 
