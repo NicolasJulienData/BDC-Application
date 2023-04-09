@@ -66,17 +66,6 @@ NoneType = type(None) # Création d'un NoneType pour les conditions
 col1, col2 = st.columns(2) # Création d'autres colonnes par la suite
 
 #------------------------------CHARGEMENT DES FONCTIONS DE PREPROCESSING----------------------------------------------
-
-@st.cache_data
-def load_data_from_drive(url, header = 0):
-    path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
-    storage_options = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
-    if header == 0:
-        return(pd.read_csv(path, storage_options=storage_options))
-    if header != 0:
-        return(pd.read_csv(path, storage_options=storage_options, header=header))
-      
-  
     
 liste_equipements = [
                 ['A203'],['A206'],
@@ -487,19 +476,36 @@ def select_variables(dvf_geo, keep_columns = liste_var_garder):
         print(f"An error occurred: {e}")
         return None
 
+    
+@st.cache_data
+def load_data_from_drive(url, delimiter = None, header = 0, gpd=False):
+    path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
+    storage_options = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
+    if gpd = True:
+        return(gpd.read_file(path))
+    elif delimiter != None:
+        if header == 0:
+            return(pd.read_csv(path, delimiter = delimiter, storage_options=storage_options))
+        else:
+            return(pd.read_csv(path, delimiter = delimiter, storage_options=storage_options, header=header))
+    else:
+        return(pd.read_csv(path, storage_options=storage_options)
+            
+
 #------------------------------CHARGEMENT DES BASES DE DONNEES COMPLEMENTAIRES----------------------------------------------
 
 
-with st.spinner("Chargement des données..."):
-    data = load_data_from_drive('https://drive.google.com/file/d/1CgGNYXtoNHpyGFFc3eIygvu2VEIlkljX/view?usp=sharing')
-    iris_value = load_data_from_drive('https://drive.google.com/file/d/17FAvgxgAeOFcwI_B8GMCXdQDUoIC28vt/view?usp=sharing')
-    iris_shape = load_data_from_drive('https://drive.google.com/file/d/1Pmi_pYm463617l6ttgU62hlURgMbLMdi/view?usp=sharing')
+with st.spinner("Chargement des données..."):  
     
-    amenities = load_data_from_drive('https://drive.google.com/file/d/1cAON4kHaFTX7_QMucSFPqJqYQYgxkCF4/view?usp=sharing')
-    geo_etab = load_data_from_drive('https://drive.google.com/file/d/1gW-AeHx45B_DLHu1NjNzaq3zSK5ZjjrM/view?usp=sharing')
-    brevet = load_data_from_drive('https://drive.google.com/file/d/1Npgly_errYJJriQ8BM0BjtWNstmXO2nu/view?usp=sharing')
-    lyc = load_data_from_drive('https://drive.google.com/file/d/1oa5HaIRuN_xRW0vGKBMGBxC2dSV9t-dj/view?usp=sharing')
-    metropoles = load_data_from_drive('https://drive.google.com/file/d/1egJe47iwSZa9W7T_2Dn4Uewifov64xMK/view?usp=sharing', header = 5)
+    data = load_data_from_drive('https://drive.google.com/file/d/1CgGNYXtoNHpyGFFc3eIygvu2VEIlkljX/view?usp=sharing')
+    iris_value = load_data_from_drive('https://drive.google.com/file/d/17FAvgxgAeOFcwI_B8GMCXdQDUoIC28vt/view?usp=sharing', delimiter=';')
+    iris_shape = load_data_from_drive('https://drive.google.com/file/d/1Pmi_pYm463617l6ttgU62hlURgMbLMdi/view?usp=sharing', gpd = True)
+    
+    amenities = load_data_from_drive('https://drive.google.com/file/d/1cAON4kHaFTX7_QMucSFPqJqYQYgxkCF4/view?usp=sharing', delimiter=';')
+    geo_etab = load_data_from_drive('https://drive.google.com/file/d/1gW-AeHx45B_DLHu1NjNzaq3zSK5ZjjrM/view?usp=sharing', delimiter=';')
+    brevet = load_data_from_drive('https://drive.google.com/file/d/1Npgly_errYJJriQ8BM0BjtWNstmXO2nu/view?usp=sharing', delimiter=';')
+    lyc = load_data_from_drive('https://drive.google.com/file/d/1oa5HaIRuN_xRW0vGKBMGBxC2dSV9t-dj/view?usp=sharing', delimiter=';')
+    metropoles = load_data_from_drive('https://drive.google.com/file/d/1egJe47iwSZa9W7T_2Dn4Uewifov64xMK/view?usp=sharing', delimiter=';', header = 5)
   
     data = convert_gpd(data)
          
