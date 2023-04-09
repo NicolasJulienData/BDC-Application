@@ -112,7 +112,7 @@ def convert_gpd(data, equi=False):
                 data, geometry = gpd.points_from_xy(data.LAMBERT_X, data.LAMBERT_Y)
             )
         return gpd.GeoDataFrame(
-                data, geometry = gpd.points_from_xy(data.longitude, data.latitude)
+                data, geometry = gpd.points_from_xy(data['longitude'], data['latitude'])
             )
     except ValueError as e:
         print(f"Error converting to GeoDataFrame: {e}")
