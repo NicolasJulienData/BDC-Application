@@ -37,12 +37,12 @@ import streamlit as st  # 🎈 data web app development
 #------------------------------PRESENTATION DE LA PAGE----------------------------------------------
 
 st.set_page_config(
-    page_title="Immobil.Ia",
+    page_title="Immobil.ia",
     page_icon="https://drive.google.com/file/d/1rsobE8pEosOFjGyihHg6tN1oiqZQmwUV/view?usp=sharing",
     layout="wide",
 )
 
-st.title("Immobil.IA - Business Data Challenge ENSAE x MeilleurTaux")
+st.title("Immobil.ia - Business Data Challenge ENSAE x MeilleurTaux")
 
 col_1, col_2 = st.columns(2)
 with col_2:
@@ -51,7 +51,7 @@ with col_1:
     st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/LOGO-ENSAE.png/800px-LOGO-ENSAE.png", width = 180)
 
 
-st.markdown("### Immobil.IA : l'application qui te permet d'estimer le prix de ton bien immobilier 🏠🏢") 
+st.markdown("### Immobil.ia : l'application qui te permet d'estimer le prix de ton bien immobilier 🏠🏢") 
          
 #------------------------------DEMANDE DE L'ADRESSE----------------------------------------------
 
@@ -65,22 +65,22 @@ if adresse == '':
 
 
 with st.sidebar:
-    if adresse != '':
         
-        GEOCODE_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='+adresse+'&key='+st.secrets['gmaps_key']
-        geo_response = requests.request("GET", GEOCODE_URL)
-        geodata = json.loads(geo_response.text)
-        try:
-         lat_lon = pd.DataFrame({'lat':[geodata['results'][0]['geometry']['location']['lat']], 'lon':[geodata['results'][0]['geometry']['location']['lng']]})
-         ville = geodata['results'][0]['address_components'][2]["long_name"]
-         adresse_nom_voie = geodata['results'][0]['address_components'][1]["short_name"]
-         code_departement = geodata['results'][0]['address_components'][6]["short_name"]
-        except IndexError:
-         lat_lon = None
-         ville = None
-         st.write('Adresse non trouvée')
-        
-        type_bien = st.selectbox("Sélectionner le type de bien",("Appartement", "Maison"))
+    GEOCODE_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='+adresse+'&key='+st.secrets['gmaps_key']
+    geo_response = requests.request("GET", GEOCODE_URL)
+    geodata = json.loads(geo_response.text)
+    try:
+     lat_lon = pd.DataFrame({'lat':[geodata['results'][0]['geometry']['location']['lat']], 'lon':[geodata['results'][0]['geometry']['location']['lng']]})
+     ville = geodata['results'][0]['address_components'][2]["long_name"]
+     adresse_nom_voie = geodata['results'][0]['address_components'][1]["short_name"]
+     code_departement = geodata['results'][0]['address_components'][6]["short_name"]
+    except IndexError:
+     lat_lon = None
+     ville = None
+     if adresse != '':
+        st.write('Adresse non trouvée')
+
+    type_bien = st.selectbox("Sélectionner le type de bien",("Appartement", "Maison"))
         
         
 #------------------------------IMPORTATION DE LA BASE DE DONNEES TEST----------------------------------------------
@@ -112,6 +112,8 @@ if (type(lat_lon) != 'NoneType') & (len(data) != 0):
                                                  max_value = 10000, value=500)       
     col1, col2 = st.columns(2)
     with col1:
+        st.write(type(lat_lon),len(data))
+        st.write((type(lat_lon) != 'NoneType') & (len(data) != 0))
         st.map(data=lat_lon)
 
 #------------------------------IMPORTATION DU MODELE----------------------------------------------
