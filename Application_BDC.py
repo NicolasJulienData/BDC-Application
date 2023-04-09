@@ -478,10 +478,10 @@ def select_variables(dvf_geo, keep_columns = liste_var_garder):
 
     
 @st.cache_data
-def load_data_from_drive(url, delimiter = None, header = 0, gpd=False):
+def load_data_from_drive(url, delimiter = None, header = 0, geopanda=False):
     path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
     storage_options = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
-    if gpd == True:
+    if geopanda == True:
         return(gpd.read_file(path))
     elif delimiter != None:
         if header == 0:
@@ -499,7 +499,7 @@ with st.spinner("Chargement des données..."):
     
     data = load_data_from_drive('https://drive.google.com/file/d/1CgGNYXtoNHpyGFFc3eIygvu2VEIlkljX/view?usp=sharing')
     iris_value = load_data_from_drive('https://drive.google.com/file/d/17FAvgxgAeOFcwI_B8GMCXdQDUoIC28vt/view?usp=sharing', delimiter=';')
-    iris_shape = load_data_from_drive('https://drive.google.com/file/d/1Pmi_pYm463617l6ttgU62hlURgMbLMdi/view?usp=sharing', gpd = True)
+    iris_shape = load_data_from_drive('https://drive.google.com/file/d/1Pmi_pYm463617l6ttgU62hlURgMbLMdi/view?usp=sharing', geopanda = True)
     
     amenities = load_data_from_drive('https://drive.google.com/file/d/1cAON4kHaFTX7_QMucSFPqJqYQYgxkCF4/view?usp=sharing', delimiter=';')
     geo_etab = load_data_from_drive('https://drive.google.com/file/d/1gW-AeHx45B_DLHu1NjNzaq3zSK5ZjjrM/view?usp=sharing', delimiter=';')
