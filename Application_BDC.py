@@ -96,7 +96,7 @@ if ville != None:
 
 #------------------------------INPUT DES CARACTERISTIQUES DU BIEN----------------------------------------------
 
-st.write(type(lat_lon),type(data))
+
 if (type(lat_lon) != 'NoneType') & (len(data) != 0):
     with st.sidebar:
 
