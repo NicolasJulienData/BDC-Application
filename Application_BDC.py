@@ -124,7 +124,8 @@ else:
 if Bool_User_Ville_Succesful:
    
     data = pd.read_csv('data_test.csv')
-    data = data[(data['nom_commune']==ville)&(data['type_local']==type_bien)]
+    data = data[(data['nom_commune']==ville) & (data['type_local']==type_bien)]
+    st.write(data)
 
 #------------------------------INPUT DES AUTRES CARACTERISTIQUES DU BIEN----------------------------------------------
 
