@@ -52,6 +52,7 @@ with col_1:
 
 
 st.markdown("### Immobil.ia : l'application qui te permet d'estimer le prix de ton bien immobilier 🏠🏢") 
+NoneType = type(None) 
          
 #------------------------------DEMANDE DE L'ADRESSE----------------------------------------------
 
