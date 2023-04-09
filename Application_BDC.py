@@ -473,50 +473,34 @@ def select_variables(dvf_geo, keep_columns = liste_var_garder):
     
     except Exception as e:
         print(f"An error occurred: {e}")
-        return None
-
-    
-@st.cache_data
-def load_data(path, delimiter = None, header = 0, geopanda=False):
-    if delimiter != None:
-        if header == 0:
-            return(pd.read_csv(path, delimiter = delimiter))
-        else:
-            return(pd.read_csv(path, delimiter = delimiter, header=header))
-    else:
-        return(pd.read_csv(path))           
+        return None          
 
 #------------------------------CHARGEMENT DES BASES DE DONNEES COMPLEMENTAIRES----------------------------------------------
 
-pd.read_csv('bpe21_ensemble_xy.csv')
-st.write('bpe import ok')
-base = []
+if 'data' not in st.session_state:
+    st.session_state['data'] = []
 
-liste_path = ['Final.csv','IRIS_donnees.csv','bpe21_ensemble_xy.csv','geo_brevet.csv','resultats_brevet.csv','resultats_lycées.csv','metropoles_communes.csv']
-for path in stqdm(liste_path):
-    base.append(load_data(path,delimiter=';'))
-    st.write(path,' Check')
-    
-[data, iris_value, iris_shape, amenities, geo_etab, brevet, lyc, metropoles]  = base
-iris_shape = gpd.read_file('IRIS_contours.shp')
-
-#with st.spinner('Chargement des données:'):
-#    data = load_data('Final.csv')
- #   st.write('data: check')
-#    iris_value = load_data('IRIS_donnees.csv', delimiter=';')
- #   st.write('iris value: check')
-#    iris_shape = gpd.read_file('IRIS_contours.shp')
-#    st.write('iris shape: check')   
-#    amenities = load_data('bpe21_ensemble_xy.csv', delimiter=';')
-#    st.write('amenities: check')
-#    geo_etab = load_data('geo_brevet.csv', delimiter=';')
-#    st.write('geo etab: check')
-#    brevet = load_data('resultats_brevet.csv', delimiter=';')
-  #  st.write('brevet: check')
- #   lyc = load_data('resultats_lycées.csv', delimiter=';')
-#    st.write('lyc: check')
-#    metropoles = load_data('metropoles_communes.csv', delimiter=';', header = 5)
-#    st.write('metropoles: check')
+if st.session_state['data'] == []
+    with st.spinner('Chargement des données:'):
+        data = pd.read_csv('Final.csv')
+        st.write('data: check')
+        iris_value = pd.read_csv('IRIS_donnees.csv', delimiter=';')
+        st.write('iris value: check')
+        iris_shape = gpd.read_file('IRIS_contours.shp')
+        st.write('iris shape: check')   
+        amenities = pd.read_csv('bpe21_ensemble_xy.csv', delimiter=';')
+        st.write('amenities: check')
+        geo_etab = pd.read_csv('geo_brevet.csv', delimiter=';')
+        st.write('geo etab: check')
+        brevet = pd.read_csv('resultats_brevet.csv', delimiter=';')
+        st.write('brevet: check')
+        lyc = pd.read_csv('resultats_lycées.csv', delimiter=';')
+        st.write('lyc: check')
+        metropoles = pd.read_csv('metropoles_communes.csv', delimiter=';', header = 5)
+        st.write('metropoles: check')
+        st.session_state['data'] = [data, iris_value, iris_shape, amenities, geo_etab, brevet, lyc, metropoles]
+ 
+[data, iris_value, iris_shape, amenities, geo_etab, brevet, lyc, metropoles] = st.session_state['data']
          
 #------------------------------DEMANDE DE L'ADRESSE----------------------------------------------
 
