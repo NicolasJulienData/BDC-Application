@@ -494,15 +494,15 @@ import zipfile
 
 with st.spinner("Chargement des données..."):  
     
-    data = load_data_from_drive('Final_csv')
-    iris_value = load_data_from_drive('IRIS_donnees', delimiter=';')
+    data = load_data('Final_csv')
+    iris_value = load_data('IRIS_donnees', delimiter=';')
     iris_shape = gpd.read_file('IRIS_contours.shp')
     
-    amenities = load_data_from_drive('bpe21_ensemble_xy.csv', delimiter=';')
-    geo_etab = load_data_from_drive('geo_brevet.csv', delimiter=';')
-    brevet = load_data_from_drive('resultats_brevet.csv', delimiter=';')
-    lyc = load_data_from_drive('resultats_lycées.csv', delimiter=';')
-    metropoles = load_data_from_drive('metropoles_communes.csv', delimiter=';', header = 5)
+    amenities = load_data('bpe21_ensemble_xy.csv', delimiter=';')
+    geo_etab = load_data('geo_brevet.csv', delimiter=';')
+    brevet = load_data('resultats_brevet.csv', delimiter=';')
+    lyc = load_data('resultats_lycées.csv', delimiter=';')
+    metropoles = load_data('metropoles_communes.csv', delimiter=';', header = 5)
     
     st.write(data)
     data_2 = load_data_from_drive('https://drive.google.com/file/d/1CgGNYXtoNHpyGFFc3eIygvu2VEIlkljX/view?usp=sharing', delimiter=';')
@@ -575,8 +575,8 @@ else:
 
 if Bool_User_Ville_Succesful:
    
-    data = pd.read_csv('data_test.csv')
-    data = data[(data['nom_commune']==ville) & (data['type_local']==type_bien)]
+    data_test = pd.read_csv('data_test.csv')
+    data_test = data_test[(data_test['nom_commune']==ville) & (data_test['type_local']==type_bien)]
 
 #------------------------------INPUT DES AUTRES CARACTERISTIQUES DU BIEN----------------------------------------------
 
