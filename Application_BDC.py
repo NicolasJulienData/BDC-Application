@@ -491,7 +491,7 @@ def load_data(path, delimiter = None, header = 0, geopanda=False):
 with st.spinner("Chargement des données..."):  
     
     data = load_data('Final.csv')
-    iris_value = load_data('IRIS_donnees', delimiter=';')
+    iris_value = load_data('IRIS_donnees.csv', delimiter=';')
     iris_shape = gpd.read_file('IRIS_contours.shp')
     
     amenities = load_data('bpe21_ensemble_xy.csv', delimiter=';')
