@@ -499,7 +499,7 @@ with st.spinner("Chargement des données..."):
     
     data = load_data_from_drive('https://drive.google.com/file/d/1CgGNYXtoNHpyGFFc3eIygvu2VEIlkljX/view?usp=sharing')
     iris_value = load_data_from_drive('https://drive.google.com/file/d/17FAvgxgAeOFcwI_B8GMCXdQDUoIC28vt/view?usp=sharing', delimiter=';')
-    iris_shape = load_data_from_drive('https://drive.google.com/file/d/1Pmi_pYm463617l6ttgU62hlURgMbLMdi/view?usp=sharing', geopanda = True)
+    iris_shape = load_data_from_drive('https://drive.google.com/file/d/1gDbiF4Bbo3ymIMh7VRhts8BI5C1OcpUr/view?usp=sharing', geopanda = True)
     
     amenities = load_data_from_drive('https://drive.google.com/file/d/1cAON4kHaFTX7_QMucSFPqJqYQYgxkCF4/view?usp=sharing', delimiter=';')
     geo_etab = load_data_from_drive('https://drive.google.com/file/d/1gW-AeHx45B_DLHu1NjNzaq3zSK5ZjjrM/view?usp=sharing', delimiter=';')
