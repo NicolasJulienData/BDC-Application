@@ -490,8 +490,6 @@ def load_data(path, delimiter = None, header = 0, geopanda=False):
 
 #------------------------------CHARGEMENT DES BASES DE DONNEES COMPLEMENTAIRES----------------------------------------------
 
-import zipfile
-
 with st.spinner("Chargement des données..."):  
     
     data = load_data('Final.csv')
