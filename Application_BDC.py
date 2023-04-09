@@ -481,7 +481,7 @@ def select_variables(dvf_geo, keep_columns = liste_var_garder):
 def load_data_from_drive(url, delimiter = None, header = 0, gpd=False):
     path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
     storage_options = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
-    if gpd = True:
+    if gpd == True:
         return(gpd.read_file(path))
     elif delimiter != None:
         if header == 0:
