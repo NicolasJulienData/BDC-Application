@@ -2,13 +2,10 @@ joblib==1.2.0
 numpy==1.24.1
 pandas
 geopandas==0.12.2
-plotly
 requests
 requests_html
 scikit_learn
 stqdm==0.0.5
 streamlit
 xgboost
-matplotlib
-graphviz
 googlemaps==4.10.0
