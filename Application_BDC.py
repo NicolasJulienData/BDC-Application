@@ -505,7 +505,10 @@ with st.spinner("Chargement des données..."):
     brevet = load_data_from_drive('https://drive.google.com/file/d/1Npgly_errYJJriQ8BM0BjtWNstmXO2nu/view?usp=sharing', delimiter=';')
     lyc = load_data_from_drive('https://drive.google.com/file/d/1oa5HaIRuN_xRW0vGKBMGBxC2dSV9t-dj/view?usp=sharing', delimiter=';')
     metropoles = load_data_from_drive('https://drive.google.com/file/d/1egJe47iwSZa9W7T_2Dn4Uewifov64xMK/view?usp=sharing', delimiter=';', header = 5)
-  
+    
+    st.write(data)
+    data_2 = load_data_from_drive('https://drive.google.com/file/d/1CgGNYXtoNHpyGFFc3eIygvu2VEIlkljX/view?usp=sharing', delimiter=';')
+    st.write(data_2)
     data = convert_gpd(data)
          
 #------------------------------DEMANDE DE L'ADRESSE----------------------------------------------
