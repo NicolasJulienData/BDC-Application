@@ -91,7 +91,7 @@ with st.sidebar:
 #------------------------------AFFICHAGE DE LA MAP SI ON A BIEN UNE LAT LONG----------------------------------------------    
 
 with col1:
-    if type(lat_lon) != Nonetype:
+    if type(lat_lon) != NoneType:
         st.map(data=lat_lon)
 
 #------------------------------IMPORTATION DU MODELE----------------------------------------------
