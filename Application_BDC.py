@@ -39,6 +39,7 @@ from joblib import Parallel, delayed
 
 import xgboost
 import streamlit as st  # 🎈 data web app development
+from stqdm import stqdm
 
 #------------------------------PRESENTATION DE LA PAGE----------------------------------------------
 
@@ -483,37 +484,36 @@ def load_data(path, delimiter = None, header = 0, geopanda=False):
         else:
             return(pd.read_csv(path, delimiter = delimiter, header=header))
     else:
-        return(pd.read_csv(path))
-    
-data = pd.read_csv('Final.csv')
-st.write('data: check')
-            
+        return(pd.read_csv(path))           
 
 #------------------------------CHARGEMENT DES BASES DE DONNEES COMPLEMENTAIRES----------------------------------------------
 
-for i in []:  
+base = []
+liste_path = ['Final.csv','IRIS_donnees.csv','bpe21_ensemble_xy.csv','geo_brevet.csv','resultats_brevet.csv','resultats_lycées.csv','metropoles_communes.csv']
+for path in stqdm(liste_path):
+    base.append(load_data(path,delimiter=';'))
+    st.write(path,' Check')
     
-    data = load_data('Final.csv')
-    st.write('data: check')
-    iris_value = load_data('IRIS_donnees.csv', delimiter=';')
-    st.write('iris value: check')
-    iris_shape = gpd.read_file('IRIS_contours.shp')
-    st.write('iris shape: check')   
-    amenities = load_data('bpe21_ensemble_xy.csv', delimiter=';')
-    st.write('amenities: check')
-    geo_etab = load_data('geo_brevet.csv', delimiter=';')
-    st.write('geo etab: check')
-    brevet = load_data('resultats_brevet.csv', delimiter=';')
-    st.write('brevet: check')
-    lyc = load_data('resultats_lycées.csv', delimiter=';')
-    st.write('lyc: check')
-    metropoles = load_data('metropoles_communes.csv', delimiter=';', header = 5)
-    st.write('metropoles: check')
-    
-    st.write(data)
-    data_2 = load_data_from_drive('https://drive.google.com/file/d/1CgGNYXtoNHpyGFFc3eIygvu2VEIlkljX/view?usp=sharing', delimiter=';')
-    st.write(data_2)
-    data = convert_gpd(data)
+[data, iris_value, iris_shape, amenities, geo_etab, brevet, lyc, metropoles]  = base
+iris_shape = gpd.read_file('IRIS_contours.shp')
+
+#with st.spinner('Chargement des données:'):
+#    data = load_data('Final.csv')
+ #   st.write('data: check')
+#    iris_value = load_data('IRIS_donnees.csv', delimiter=';')
+ #   st.write('iris value: check')
+#    iris_shape = gpd.read_file('IRIS_contours.shp')
+#    st.write('iris shape: check')   
+#    amenities = load_data('bpe21_ensemble_xy.csv', delimiter=';')
+#    st.write('amenities: check')
+#    geo_etab = load_data('geo_brevet.csv', delimiter=';')
+#    st.write('geo etab: check')
+#    brevet = load_data('resultats_brevet.csv', delimiter=';')
+  #  st.write('brevet: check')
+ #   lyc = load_data('resultats_lycées.csv', delimiter=';')
+#    st.write('lyc: check')
+#    metropoles = load_data('metropoles_communes.csv', delimiter=';', header = 5)
+#    st.write('metropoles: check')
          
 #------------------------------DEMANDE DE L'ADRESSE----------------------------------------------
 
