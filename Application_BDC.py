@@ -63,9 +63,7 @@ if adresse == '':
     st.markdown("**Fonctionnement de l'application** - L'application permet d'utiliser notre modèle d'XGBoost permettant d'estimer les prix de biens immobiliers situés dans l'une des métropoles suivantes: Paris🗼, Marseille☀️, Lyon🦁, Lille⛏, Bordeaux🍷, Toulouse🏉, Montpellier🏖️, Nantes🔰, Rennes🦌, Nice😎. Le modèle détecte automatiquement si le modèle est compatible avec l'adresse rentrée🔄. Il faut ensuite renseigner quelques informations sur la nature du bien et le prix est calculé 🏷️.")
     st.markdown("**Pour plus d'informations** sur le fonctionnement du modèle et du traitement de la donnée, notre travail est disponible sur la forme de package. La documentation est disponible sur le GitHub : https://github.com/SalahMouslih/Data-challenge")           
 
-ville = None
-lat_lon = None
-type_bien = None
+
 with st.sidebar:
     if adresse != '':
         
