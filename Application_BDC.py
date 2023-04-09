@@ -562,12 +562,12 @@ else:
 
 
 if Bool_User_Ville_Succesful:
+    amenities = pd.read_csv('bpe21_ensemble_xy.csv', delimiter=';')
+    st.write('amenities: check')
     iris_value = pd.read_csv('IRIS_donnees.csv', delimiter=';')
     st.write('iris value: check')
     iris_shape = gpd.read_file('IRIS_contours.shp')
     st.write('iris shape: check')   
-    amenities = pd.read_csv('bpe21_ensemble_xy.csv', delimiter=';')
-    st.write('amenities: check')
     geo_etab = pd.read_csv('geo_brevet.csv', delimiter=';')
     st.write('geo etab: check')
     brevet = pd.read_csv('resultats_brevet.csv', delimiter=';')
