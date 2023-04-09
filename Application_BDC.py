@@ -58,15 +58,13 @@ st.markdown("### Immobil.IA : l'application qui te permet d'estimer le prix de t
 with st.sidebar:
     adresse = st.text_input("Veuillez entrer l'adresse:")
     
-if type(adresse) == 'NoneType':
+if adresse == '':
     st.markdown("**Présentation de l'application** - Cette application a été créée dans le cadre du projet académique *Business Data Challenge* de l'ENSAE effectué en partenariat avec meilleurtaux.com 📈. Elle a été créée dans le but d'exposer le résultat de nos travaux et proposer une démonstration ludique des capacités de l'IA en matière de prédiction de prix de l'immbolier 🔮 Attention, les résultats sont affichés à titre indicatif et nous ne garantissons aucun résultat ⚠️")
     st.markdown("**Fonctionnement de l'application** - L'application permet d'utiliser notre modèle d'XGBoost permettant d'estimer les prix de biens immobiliers situés dans l'une des métropoles suivantes: Paris🗼, Marseille☀️, Lyon🦁, Lille⛏, Bordeaux🍷, Toulouse🏉, Montpellier🏖️, Nantes🔰, Rennes🦌, Nice😎. Le modèle détecte automatiquement si le modèle est compatible avec l'adresse rentrée🔄. Il faut ensuite renseigner quelques informations sur la nature du bien et le prix est calculé 🏷️.")
     st.markdown("**Pour plus d'informations** sur le fonctionnement du modèle et du traitement de la donnée, notre travail est disponible sur la forme de package. La documentation est disponible sur le GitHub : https://github.com/SalahMouslih/Data-challenge")           
 
-st.write(type(adresse))
-
 with st.sidebar:
-    if type(adresse) != 'NoneType':
+    if adresse != '':
         
         GEOCODE_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='+adresse+'&key='+st.secrets['gmaps_key']
         geo_response = requests.request("GET", GEOCODE_URL)
@@ -96,7 +94,7 @@ data = data[(data['nom_commune']==ville)&(data['type_local']==type_bien)]
 #------------------------------INPUT DES CARACTERISTIQUES DU BIEN----------------------------------------------
 
 st.write(type(lat_lon),type(data))
-if (type(lat_lon) != 'NoneType') & (type(data) != 'NoneType'):
+if (type(lat_lon) != 'NoneType') & (len(data) != 0):
     with st.sidebar:
 
         if (type_bien != None) & (ville != None):
