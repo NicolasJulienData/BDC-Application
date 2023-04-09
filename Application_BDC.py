@@ -89,7 +89,7 @@ liste_var_garder=['id_mutation', 'date_mutation', 'numero_disposition', 'valeur_
        'Part_salaire', 'Part_revenus_chomage', 'Part_revenus_non_salariées', 'Part_retraites', 'Part_revenus_patrimoine',
        'Part_prestations_sociales', 'Part_prestations_familiales', 'Part_minima_sociaux', 'Part_prestations_logement','Part_impôts']
 
-@st.cache_data
+
 def convert_gpd(data, equi=False):
     """
     Converts a pandas DataFrame to a GeoDataFrame using the geometry attribute.
@@ -118,7 +118,7 @@ def convert_gpd(data, equi=False):
         return None
 
 
-@st.cache_data
+
 def iris_prep(iris_value, iris_shape):
     """
     Merge iris_shape and iris_value tables to obtain the polygons and the IRIS values in the same table.
@@ -147,7 +147,7 @@ def iris_prep(iris_value, iris_shape):
         print(f"Error: {str(e)}")
         return None
 
-@st.cache_data
+
 def equipements_prep(liste_iris):
     """
     Aggregate the number of equipment for selected categories at the IRIS level.
@@ -200,7 +200,7 @@ def equipements_prep(liste_iris):
 
     return amenities_df
 
-@st.cache_data
+
 def prep_lyc(data: pd.DataFrame, geo_etab: pd.DataFrame) -> gpd.GeoDataFrame:
     """
     Filters the given lycée data to only include lycées généraux, as they are more likely to
@@ -246,7 +246,7 @@ def prep_lyc(data: pd.DataFrame, geo_etab: pd.DataFrame) -> gpd.GeoDataFrame:
         print(f"An error occurred while preprocessing lycees data: {e}")
         return None
 
-@st.cache_data
+
 def prep_brevet(data: pd.DataFrame, geo_etab: pd.DataFrame) -> gpd.GeoDataFrame:
     """
     Preprocesses brevet data by computing the taux de mention for each college,
@@ -280,7 +280,7 @@ def prep_brevet(data: pd.DataFrame, geo_etab: pd.DataFrame) -> gpd.GeoDataFrame:
     except KeyError as e:
         print(f"KeyError occurred while preprocessing brevet data: {e}")
 
-@st.cache_data
+
 def get_k_nearest_neighbors(source_points, candidate_points, k_neighbors):
     """
     Find the k nearest neighbors for all source points from a set of candidate points.
@@ -303,7 +303,7 @@ def get_k_nearest_neighbors(source_points, candidate_points, k_neighbors):
         print(f"An error occurred: {e}")
         return None, None
 
-@st.cache_data
+
 def get_nearest_neighbors(left_gdf, right_gdf, k_neighbors, return_distances=False):
     """
     For each point in left_gdf, find the k-nearest neighbors in right_gdf and return their indices.
@@ -332,7 +332,7 @@ def get_nearest_neighbors(left_gdf, right_gdf, k_neighbors, return_distances=Fal
     else:
         return indices
 
-@st.cache_data
+
 def apply_linear_regression(row,table_info, metric_of_interest):
 
     """Apply linear regression to calculate the intercept of a row with the given metric of interest."""
@@ -345,7 +345,7 @@ def apply_linear_regression(row,table_info, metric_of_interest):
 
     return lr.intercept_
 
-@st.cache_data
+
 def calculate_closest_metric(dvf, table_info, k_neighbors, metric_of_interest, new_metric_name, apply_regression=False):
     """Compute the new metric based on the k-nearest neighbors in table_info dataframe."""
     try:
@@ -366,7 +366,7 @@ def calculate_closest_metric(dvf, table_info, k_neighbors, metric_of_interest, n
         print(str(e))
         return None
 
-@st.cache_data
+
 def alter_metric_name(df,input_variable_names,output_variable_names):
     """
     Calculate new metrics using my_choose_closest() function and return updated dataframe.
@@ -422,7 +422,7 @@ equi_input_variable_names=['A203', 'A206', 'B101', 'C101', 'C201', 'D201', 'E107
 equi_output_variable_names = ['Banques', 'Bureaux_de_Poste', 'Commerces', 'Ecoles','Collèges_Lycées', 'Medecins','Gares', 'Cinema',
                         'Bibliotheques', 'Espaces_remarquables_et_patrimoine']            
 
-@st.cache_data
+
 def choose_metric_name(df, variable):
     """
     Calculates a new metric using the given input metric and name.
@@ -441,7 +441,7 @@ def choose_metric_name(df, variable):
     else :
         raise ValueError("Invalid variable input. Choose either 'income' or 'amenity'.")
 
-@st.cache_data
+
 def select_variables(dvf_geo, keep_columns = liste_var_garder):
     """
     Select variables from dvf_geo dataframe and return updated dataframe.
