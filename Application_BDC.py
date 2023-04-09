@@ -110,7 +110,7 @@ if Bool_User_Ville_Succesful:
     
 else:
     with col_2:
-        st.write("La ville de {} n'est pas couverte par notre modèle. Veuillez réessayer dans l'une des métropoles suivantes : Paris, Marseille, Lyon, Lille, Bordeaux, Toulouse, Nice, Nantes, Montpellier, Rennes".format{ville})
+        st.write("La ville de {} n'est pas couverte par notre modèle. Veuillez réessayer dans l'une des métropoles suivantes : Paris, Marseille, Lyon, Lille, Bordeaux, Toulouse, Nice, Nantes, Montpellier, Rennes".format(ville))
 
 #------------------------------IMPORTATION DE LA BASE DE DONNEES TEST----------------------------------------------
 
