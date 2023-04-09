@@ -489,7 +489,7 @@ def load_data_from_drive(url, delimiter = None, header = 0, gpd=False):
         else:
             return(pd.read_csv(path, delimiter = delimiter, storage_options=storage_options, header=header))
     else:
-        return(pd.read_csv(path, storage_options=storage_options)
+        return(pd.read_csv(path, storage_options=storage_options))
             
 
 #------------------------------CHARGEMENT DES BASES DE DONNEES COMPLEMENTAIRES----------------------------------------------
