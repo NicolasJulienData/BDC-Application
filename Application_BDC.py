@@ -481,11 +481,11 @@ def select_variables(dvf_geo, keep_columns = liste_var_garder):
 def load_data(path, delimiter = None, header = 0, geopanda=False):
     if delimiter != None:
         if header == 0:
-            return(pd.read_csv(path, delimiter = delimiter, storage_options=storage_options))
+            return(pd.read_csv(path, delimiter = delimiter))
         else:
             return(pd.read_csv(path, delimiter = delimiter, header=header))
     else:
-        return(pd.read_csv(path, storage_options=storage_options))
+        return(pd.read_csv(path))
             
 
 #------------------------------CHARGEMENT DES BASES DE DONNEES COMPLEMENTAIRES----------------------------------------------
