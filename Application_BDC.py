@@ -473,7 +473,13 @@ def select_variables(dvf_geo, keep_columns = liste_var_garder):
     
     except Exception as e:
         print(f"An error occurred: {e}")
-        return None          
+        return None  
+data = pd.read_csv('Final.csv')
+st.write('data: check')
+iris_value = pd.read_csv('IRIS_donnees.csv', delimiter=';')
+st.write('iris value: check')
+iris_shape = gpd.read_file('IRIS_contours.shp')
+st.write('iris shape: check') 
 
 #------------------------------CHARGEMENT DES BASES DE DONNEES COMPLEMENTAIRES----------------------------------------------
 
