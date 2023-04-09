@@ -139,8 +139,6 @@ if Bool_User_Ville_Succesful:
             
             nombre_lots = st.slider('Nombre de lots', min_value = 0, max_value = 2, value = int(np.mean(data['nombre_lots'])), step = 1)
             
-            trimestre_vente = st.selectbox("Trimestre Vente",data['trimestre_vente'].unique())
-            
             if type_bien == "Maison":             
                 surface_terrain = st.slider('Surface du terrain de la maison (en mètres carrés)', min_value = 0,
                                                  max_value = 10000, value=500)       
@@ -158,7 +156,7 @@ if Bool_User_Ville_Succesful:
                             'surface_reelle_bati':surface_reelle_bati,
                             'nombre_pieces_principales':nombre_pieces_principales,
                             'latitude':float(lat_lon['lat']),
-                            'trimestre_vente':trimestre_vente,
+                            'trimestre_vente':'2022-T2',
                             'prix_m2_zone':echantillon['prix_m2_zone'],
                             'moyenne':echantillon['moyenne'],
                             'moyenne_brevet':echantillon['moyenne_brevet'],
@@ -200,7 +198,7 @@ if Bool_User_Ville_Succesful:
                             'nombre_pieces_principales':nombre_pieces_principales,
                             'surface_terrain':surface_terrain,
                             'latitude':float(lat_lon['lat']),
-                            'trimestre_vente':trimestre_vente,
+                            'trimestre_vente':'2022-T2',
                             'prix_m2_zone':echantillon['prix_m2_zone'],
                             'moyenne':echantillon['moyenne'],
                             'moyenne_brevet':echantillon['moyenne_brevet'],
