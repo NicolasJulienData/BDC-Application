@@ -484,6 +484,9 @@ def load_data(path, delimiter = None, header = 0, geopanda=False):
             return(pd.read_csv(path, delimiter = delimiter, header=header))
     else:
         return(pd.read_csv(path))
+    
+data = pd.read_csv('Final.csv')
+st.write('data: check')
             
 
 #------------------------------CHARGEMENT DES BASES DE DONNEES COMPLEMENTAIRES----------------------------------------------
