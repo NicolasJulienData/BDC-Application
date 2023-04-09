@@ -125,7 +125,6 @@ if Bool_User_Ville_Succesful:
    
     data = pd.read_csv('data_test.csv')
     data = data[(data['nom_commune']==ville) & (data['type_local']==type_bien)]
-    st.write(data)
 
 #------------------------------INPUT DES AUTRES CARACTERISTIQUES DU BIEN----------------------------------------------
 
@@ -148,7 +147,7 @@ if Bool_User_Ville_Succesful:
 
     #------------------------------CREATION DE LA DONNEE ENTRANTE COMPLETE----------------------------------------------
 
-    echantillon = data.sample(1)
+    echantillon = data.sample(1, random_state=42)
     st.write(echantillon)        
 
     if type_bien == 'Appartement':
