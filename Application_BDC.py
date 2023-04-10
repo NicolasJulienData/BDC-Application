@@ -679,6 +679,7 @@ if Bool_User_Ville_Succesful:
 
     #------------------------------PREDICTION----------------------------------------------
     
+    test_data=convert_gpd(test_data)
     test_result = prepreocessing_to_predict(test_data)
     prediction = pipe.predict(test_result)
 
